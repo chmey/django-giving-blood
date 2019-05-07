@@ -2,6 +2,7 @@ from django.shortcuts import render, redirect
 from django.http import HttpResponse
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth import login, authenticate
+from django.contrib.auth.decorators import login_required
 
 def index(request):
     context = {}
@@ -23,6 +24,6 @@ def signup(request):
     else:
         form = UserCreationForm()
     return render(request, 'web/signup.html', {'form': form})
-
+@login_required
 def profile(request):
     return render(request, 'web/profile.html', {'user': request.user})
