@@ -7,7 +7,7 @@ Make sure you have the required dependencies installed:
 
 
 ```
-git clone https://github.com/chrisdpk/bloody-django
+git clone https://github.com/chrisdpk/django-giving-blood
 cd bloody-django
 pip -m venv .venv
 source .venv/bin/activate
