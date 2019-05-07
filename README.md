@@ -9,7 +9,7 @@ Make sure you have the required dependencies installed:
 ```
 git clone https://github.com/chrisdpk/django-giving-blood
 cd django-giving-blood
-pip -m venv .venv
+python -m venv .venv
 source .venv/bin/activate
 pip install -r requirements.txt
 ```
