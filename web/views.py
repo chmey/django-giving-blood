@@ -4,13 +4,12 @@ from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth import login, authenticate
 from django.contrib.auth.decorators import login_required
 
+
 def index(request):
     context = {}
     return render(request, 'web/index.html', context)
-def login(request):
-    return render(request, 'web/login.html', {})
-def logout(request):
-    return HttpResponse()
+
+
 def signup(request):
     if request.method == 'POST':
         form = UserCreationForm(request.POST)
@@ -24,6 +23,8 @@ def signup(request):
     else:
         form = UserCreationForm()
     return render(request, 'web/signup.html', {'form': form})
+
+
 @login_required
 def profile(request):
     return render(request, 'web/profile.html', {'user': request.user})

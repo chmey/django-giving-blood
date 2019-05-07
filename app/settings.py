@@ -122,3 +122,7 @@ STATIC_URL = '/static/'
 
 LOGIN_URL = '/login'
 LOGOUT_REDIRECT_URL = '/'
+LOGIN_REDIRECT_URL = '/profile'
+
+# TODO REMOVE ME FOR PRODUCTION
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
