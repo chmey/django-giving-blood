@@ -1,5 +1,6 @@
 <h1>Welcome {{user.username}}</h1>
 
+Django Auth Model:
 <ul>
   <li>{{user.first_name}} {{user.last_name}}</li>
   <li>{{user.email}}</li>
@@ -13,6 +14,15 @@
   <li>{{user.date_joined}}</li>
 </ul>
 
+Our Profile Model:
+<ul>
+  <li>{{user.profile.birthdate}}</li>
+  <li>{{user.profile.receive_notifications}}</li>
+  <li>{{user.profile.bloodtype}}</li>
+  <li>{{user.profile.gender}}</li>
+
+</ul>
+
 <div>
-  <p><a href="{% url 'logout' %}">Logout</a> <a href="{% url 'profile' %}">Profile</a></p>
+  <p><a href="{% url 'logout' %}">Logout</a> <a href="{% url 'edit_profile' %}">Edit profile</a></p>
 </div>
