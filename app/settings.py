@@ -120,7 +120,7 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 
-LOGIN_URL = '/login'
+LOGIN_URL = '/auth/login'
 LOGOUT_REDIRECT_URL = '/'
 LOGIN_REDIRECT_URL = '/profile'
 
