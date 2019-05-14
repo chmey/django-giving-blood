@@ -10,17 +10,24 @@ class Profile(models.Model):
     GENDER_DIVERSE = 2
     GENDER_CHOICES = [(GENDER_MALE, 'Male'), (GENDER_FEMALE, 'Female'), (GENDER_DIVERSE, 'Diverse')]
 
-    BLOODTYPE_0 = 0
-    BLOODTYPE_A = 1
-    BLOODTYPE_B = 2
-    BLOODTYPE_AB = 3
-    BLOODTYPE_CHOICES = [(BLOODTYPE_0, '0'), (BLOODTYPE_A, 'A'), (BLOODTYPE_B, 'B'), (BLOODTYPE_AB, 'AB')]
+    BLOODTYPE_0n = 0
+    BLOODTYPE_0p = 1
+    BLOODTYPE_An = 2
+    BLOODTYPE_Ap = 3
+    BLOODTYPE_Bn = 4
+    BLOODTYPE_Bp = 5
+    BLOODTYPE_ABn = 6
+    BLOODTYPE_ABp = 7
+    BLOODTYPE_CHOICES = [(BLOODTYPE_0n, '0-'), (BLOODTYPE_0p, '0+'), (BLOODTYPE_An, 'A-'), (BLOODTYPE_Ap, 'A+'),
+                         (BLOODTYPE_Bn, 'B-'), (BLOODTYPE_Bp, 'B+'), (BLOODTYPE_ABn, 'AB-'), (BLOODTYPE_ABp, 'AB+')]
 
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     gender = models.SmallIntegerField(null=True, blank=True, choices=GENDER_CHOICES)
     bloodtype = models.SmallIntegerField(null=True, blank=True, choices=BLOODTYPE_CHOICES)
     birthdate = models.DateField(null=True, blank=True)
     receive_notifications = models.BooleanField(default=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
 
     @receiver(post_save, sender=User)
     def create_user_profile(sender, instance, created, **kwargs):
@@ -30,3 +37,10 @@ class Profile(models.Model):
     @receiver(post_save, sender=User)
     def save_user_profile(sender, instance, **kwargs):
         instance.profile.save()
+
+
+class Donation(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    #place = ...
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
