@@ -12,6 +12,7 @@ cd django-giving-blood
 python -m venv .venv
 source .venv/bin/activate
 pip install -r requirements.txt
+python manage.py migrate
 ```
 
 If everything worked without errors, you can now start the django server using
