@@ -37,3 +37,10 @@ class Profile(models.Model):
     @receiver(post_save, sender=User)
     def save_user_profile(sender, instance, **kwargs):
         instance.profile.save()
+
+
+class Donation(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    #place = ...
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
