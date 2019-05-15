@@ -19,3 +19,7 @@ class ProfileForm(forms.ModelForm):
     class Meta:
         model = Profile
         fields = ('gender', 'birthdate', 'bloodtype', 'receive_notifications')
+
+
+class InviteForm(forms.Form):
+    email = forms.EmailField(required=True)

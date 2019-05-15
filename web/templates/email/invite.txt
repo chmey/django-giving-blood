@@ -1,0 +1,5 @@
+Hi!
+
+{{user}} invited you to join Bloody Django.
+
+Sign up here: {{url}}

@@ -108,11 +108,10 @@ class ViewsTestCase(TestCase):
         c = Client()
         u = User.objects.create_user('testcase')
         c.force_login(user=u)
-        friend = 'friend@localhost.local'
         resp = c.post(reverse('invite'), {'email': 'friend@localhost.local'})
-        messages = resp.context['messages']
+        messages = list(resp.context['messages'])
         t = False
         for m in messages:
-            if friend in m:
+            if m.tags == 'success':
                 t = True
         self.assertTrue(t)
