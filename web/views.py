@@ -27,7 +27,7 @@ def signup(request):
             return redirect('index')
     else:
         form = UserCreationForm()
-    return render(request, 'web/signup.html', {'form': form})
+    return render(request, 'auth/signup.html', {'form': form})
 
 
 @login_required
