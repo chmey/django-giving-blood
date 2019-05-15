@@ -7,6 +7,8 @@
   <p><a href="{%url 'login' %}">Login</a> <a href="{% url 'logout' %}">Logout</a> <a href="{% url 'profile' %}">Profile</a></p>
 	-->
 
+<head>
+<body>
 
 <div>
 	{% load static %}
@@ -16,6 +18,12 @@
     <div class="container">
       
       <p>
+      	<h1>Thank you for becoming a blood donor!</h1>
+	    <p>What you’re about to do can save up to three lives — that’s pretty amazing.</p> 
+	      
+      	<p>It’s just one of the reasons why giving blood feels good.</p>
+        <p>It’s normal to feel a bit nervous about your first donation, but this guide will help ensure you have a great experience.</p>
+
       	<a href="/" class="btn btn-success btn-lg">HOME</a>
         
         <a href="{% url 'login' %}" class="btn btn-primary btn-lg">Sign in &raquo;</a>
@@ -31,3 +39,5 @@
     &copy; Our lawer Julian will destroy you in case of copyright steal
 </div>
 
+</body>
+</head>
