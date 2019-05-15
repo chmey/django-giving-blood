@@ -1,5 +1,6 @@
 from django.test import TestCase, Client
 from django.contrib.auth.models import User
+from django.urls import reverse
 from datetime import datetime
 
 
@@ -87,3 +88,31 @@ class ViewsTestCase(TestCase):
         resp = c.post('/profile/edit', data, follow=True)
         self.assertEquals(resp.context['user'].last_name, 'Case')
         self.assertRedirects(resp, '/profile')
+
+    def test_invite_friends_anon(self):
+        c = Client()
+        resp1 = c.get(reverse('invite'))
+        resp2 = c.post(reverse('invite'))
+        self.assertRedirects(resp1, '/auth/login?next=/invite')
+        self.assertRedirects(resp2, '/auth/login?next=/invite')
+
+    def test_invite_friends_user_render(self):
+        c = Client()
+        u = User.objects.create_user('testcase')
+        c.force_login(user=u)
+        resp = c.get(reverse('invite'))
+        self.assertEqual(resp.status_code, 200)
+        self.assertTemplateUsed('web/invite.html')
+
+    def test_invite_friends_user(self):
+        c = Client()
+        u = User.objects.create_user('testcase')
+        c.force_login(user=u)
+        friend = 'friend@localhost.local'
+        resp = c.post(reverse('invite'), {'email': 'friend@localhost.local'})
+        messages = resp.context['messages']
+        t = False
+        for m in messages:
+            if friend in m:
+                t = True
+        self.assertTrue(t)
