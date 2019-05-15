@@ -126,3 +126,6 @@ LOGIN_REDIRECT_URL = '/profile'
 
 # TODO REMOVE ME FOR PRODUCTION
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+
+STATICFILES_DIRS = (os.path.join("Project", "static"), 
+    )
