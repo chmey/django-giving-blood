@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect
 from django.http import HttpResponse
 from django.contrib.auth.forms import UserCreationForm
-from django.contrib.auth import login, authenticate
+from django.contrib.auth import login, authenticate , logout
 from django.contrib.auth.decorators import login_required
 from .forms import UserForm, ProfileForm, InviteForm
 from django.contrib import messages
@@ -11,6 +11,7 @@ from django.template.loader import get_template
 from django.template import Context
 from .apps import WebConfig
 from django.contrib.auth.models import User
+from django.contrib.auth import views as auth_views
 
 
 def index(request):
@@ -85,15 +86,15 @@ def invite(request):
 def delete_user(request):
     context = {}
     username = None
-    if request.user.is_authenticated:
-        username = request.user.username
+    
     try:
-        u = User.objects.get(username=username)
+        u = request.user
+        #del request.session['username']
         u.delete()
-        context['msg'] = 'The user is deleted.'       
+        messages.success(request, 'User deleted.')   
     except User.DoesNotExist: 
-        context['msg'] = 'User does not exist.'
-    except Exception as e: 
-        context['msg'] = e.message
-
+        messages.error(request, 'User does not exist.')
+    
+    logout(request)
     return render(request, 'web/index.html', context)
+
