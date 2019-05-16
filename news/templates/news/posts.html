@@ -1,0 +1,9 @@
+{% extends "web/index.html" %}
+
+{% block content %}
+ {% for post in object_list %}
+ 	<a href="/news/{{post.id}}"><h2>{{post.title}}</h2></a>
+ 	<p>{{post.date|date:"d-m-Y"}}</p>
+
+ {% endfor %}
+{% endblock %}

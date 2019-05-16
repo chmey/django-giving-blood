@@ -17,18 +17,27 @@
   <div class="jumbotron">
     <div class="container">
       
-      <p>
-      	<h1>Thank you for becoming a blood donor!</h1>
+      <p><a href="/" class="btn btn-success "><i class="fas fa-magic mr-1"></i>HOME</a>
+      	 <a href="/news" class="btn btn-warning ">What's new</a>
+      	 <a type="button" class="btn btn-secondary">Info</a>
+      	 {% block content %}
+      	<h2>Thank you for becoming a blood donor!</h2>
 	    <p>What you’re about to do can save up to three lives — that’s pretty amazing.</p> 
-	      
       	<p>It’s just one of the reasons why giving blood feels good.</p>
         <p>It’s normal to feel a bit nervous about your first donation, but this guide will help ensure you have a great experience.</p>
+        {% endblock %}
 
-      	<a href="/" class="btn btn-success btn-lg">HOME</a>
+      	
+        <a href="{% url 'profile' %}" class="btn btn-info btn-lg">Your profile &raquo;</a>
         
-        <a href="{% url 'login' %}" class="btn btn-primary btn-lg">Sign in &raquo;</a>
+        <p></p>
+    <p><a href="{% url 'login' %}" class="btn btn-primary btn-lg">Sign in &raquo;</a>
         <a href="{% url 'logout' %}" class="btn btn-primary btn-lg">Sign out &raquo;</a>
-        <a href="{% url 'profile' %}" class="btn btn-primary btn-lg">Your profile &raquo;</a>
+    </p>
+
+
+
+        
       </p>
     </div>
   </div>
