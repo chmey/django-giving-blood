@@ -10,6 +10,7 @@ from django.urls import reverse
 from django.template.loader import get_template
 from django.template import Context
 from .apps import WebConfig
+from django.contrib.auth.models import User
 
 
 def index(request):
@@ -79,3 +80,20 @@ def invite(request):
     else:
         form = InviteForm()
     return render(request, 'web/invite.html', {'form': form})
+
+@login_required
+def delete_user(request):
+    context = {}
+    username = None
+    if request.user.is_authenticated:
+        username = request.user.username
+    try:
+        u = User.objects.get(username=username)
+        u.delete()
+        context['msg'] = 'The user is deleted.'       
+    except User.DoesNotExist: 
+        context['msg'] = 'User does not exist.'
+    except Exception as e: 
+        context['msg'] = e.message
+
+    return render(request, 'web/index.html', context)
