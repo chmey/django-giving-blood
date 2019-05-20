@@ -1,5 +1,5 @@
 from django.test import TestCase, Client
-from django.contrib.auth.models import User
+from django.contrib.auth.models import User, AnonymousUser
 from django.urls import reverse
 from datetime import datetime
 
@@ -115,3 +115,16 @@ class ViewsTestCase(TestCase):
             if m.tags == 'success':
                 t = True
         self.assertTrue(t)
+
+    def test_delete_anon(self):
+        c = Client()
+        resp = c.get(reverse('delete-user'))
+        self.assertRedirects(resp, reverse('login')+'?next='+reverse('delete-user'))
+
+    def test_delete_user(self):
+        c = Client()
+        u = User.objects.create_user('testcase')
+        c.force_login(user=u)
+        self.assertTrue(u.is_authenticated)
+        resp = c.get(reverse('delete-user'), follow=True)
+        self.assertIsInstance(resp.context['user'], AnonymousUser)
