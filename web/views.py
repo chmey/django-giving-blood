@@ -82,19 +82,15 @@ def invite(request):
         form = InviteForm()
     return render(request, 'web/invite.html', {'form': form})
 
+
 @login_required
 def delete_user(request):
-    context = {}
-    username = None
-    
     try:
         u = request.user
-        #del request.session['username']
         u.delete()
-        messages.success(request, 'User deleted.')   
-    except User.DoesNotExist: 
+        messages.success(request, 'User deleted.')
+    except User.DoesNotExist:
         messages.error(request, 'User does not exist.')
-    
-    logout(request)
-    return render(request, 'web/index.html', context)
 
+    logout(request)
+    return render(request, 'web/index.html')

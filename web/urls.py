@@ -1,4 +1,4 @@
-from django.urls import path , include ,re_path
+from django.urls import path, re_path
 from . import views
 from django.contrib.auth import views as auth_views
 
@@ -20,5 +20,5 @@ urlpatterns = [
         path('auth/reset/<uidb64>/<token>/', auth_views.PasswordResetConfirmView.as_view(template_name='auth/password_reset_confirm.html'), name='password_reset_confirm'),
         path('auth/reset/complete', auth_views.PasswordResetCompleteView.as_view(template_name='auth/password_reset_complete.html'), name='password_reset_complete'),
         path('invite', views.invite, name='invite'),
-        re_path('delete', views.delete_user, name='delete-user')
+        path('auth/delete', views.delete_user, name='delete-user')
     ]
