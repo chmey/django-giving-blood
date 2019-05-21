@@ -2,6 +2,8 @@ from django.db import models
 from django.contrib.auth.models import User
 from django.db.models.signals import post_save
 from django.dispatch import receiver
+from django_countries.fields import CountryField
+from django.utils import timezone
 
 
 class Profile(models.Model):
@@ -39,8 +41,22 @@ class Profile(models.Model):
         instance.profile.save()
 
 
+class DonationPlace(models.Model):
+    name = models.CharField(max_length=100, unique=True)
+    street = models.CharField(max_length=100)
+    house = models.CharField(max_length=5, blank=True)
+    address_supplement = models.CharField(max_length=100, blank=True)
+    postal_code = models.CharField(max_length=32)
+    city = models.CharField(max_length=100)
+    country = CountryField()
+    publish = models.BooleanField(default=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+
 class Donation(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
-    #place = ...
+    time = models.DateTimeField(default=timezone.now)
+    place = models.ForeignKey(DonationPlace, on_delete=models.CASCADE, blank=True, null=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
