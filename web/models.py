@@ -42,6 +42,7 @@ class Profile(models.Model):
 
 
 class DonationPlace(models.Model):
+    contributor = models.ForeignKey(User, on_delete=models.CASCADE)
     name = models.CharField(max_length=100, unique=True)
     street = models.CharField(max_length=100)
     house = models.CharField(max_length=5, blank=True)
@@ -55,7 +56,7 @@ class DonationPlace(models.Model):
 
 
 class Donation(models.Model):
-    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
     time = models.DateTimeField(default=timezone.now)
     place = models.ForeignKey(DonationPlace, on_delete=models.CASCADE, blank=True, null=True)
     created_at = models.DateTimeField(auto_now_add=True)
