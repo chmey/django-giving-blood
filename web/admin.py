@@ -11,7 +11,7 @@ class BloodAdminSite(AdminSite):
     def get_urls(self):
         urls = super().get_urls()
         admin_urls = [
-            path('review_places', admin_views.review_place),
+            path('review_place/<id>', admin_views.review_place),
         ]
         return urls + admin_urls
 
