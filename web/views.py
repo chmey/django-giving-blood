@@ -72,7 +72,7 @@ def invite(request):
             con = {'user': request.user.email, 'url': request.build_absolute_uri(reverse('signup'))}
             plain = get_template('email/invite.txt').render(con)
             html_mail = get_template('email/invite.html').render(con)
-            msg = EmailMultiAlternatives(subject=subject, body=plain, from_email=WebConfig.from_email, to=[form.cleaned_data['email']])
+            msg = EmailMultiAlternatives(subject=subject, body=plain, from_email=WebConfig.from_email_invite, to=[form.cleaned_data['email']])
             msg.attach_alternative(html_mail, 'text/html')
             msg.send()
             messages.success(request, 'Your invitation was sent')
