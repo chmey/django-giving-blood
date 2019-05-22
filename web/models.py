@@ -49,7 +49,7 @@ class DonationPlace(models.Model):
     postal_code = models.CharField(max_length=32)
     city = models.CharField(max_length=100)
     country = CountryField()
-    publish = models.BooleanField(default=True)
+    published = models.BooleanField(default=False)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 

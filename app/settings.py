@@ -39,7 +39,6 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'django_countries',
     'web',
-    'api',
     'news',
 ]
 
@@ -129,5 +128,5 @@ LOGIN_REDIRECT_URL = '/profile'
 # TODO REMOVE ME FOR PRODUCTION
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 
-STATICFILES_DIRS = (os.path.join("Project", "static"), 
+STATICFILES_DIRS = (os.path.join("Project", "static"),
     )
