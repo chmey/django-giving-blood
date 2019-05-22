@@ -128,3 +128,10 @@ class ViewsTestCase(TestCase):
         self.assertTrue(u.is_authenticated)
         resp = c.get(reverse('delete-user'), follow=True)
         self.assertIsInstance(resp.context['user'], AnonymousUser)
+
+    def test_delete_invalid_user(self):
+        c = Client()
+        u = User.objects.get_by_natural_key('DOESNOTEXIST')
+        c.force_login(user=u)
+        c.get(reverse('delete-user'), follow=True)
+        self.assertRaises(User.DoesNotExist)
