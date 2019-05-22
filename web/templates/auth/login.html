@@ -1,3 +1,5 @@
+{% extends "../base.html" %}
+{% block content %}
 <h1>Login</h1>
 {% if form.errors %}
 <p>Your username and password didn't match. Please try again.</p>
@@ -29,3 +31,4 @@
 <input type="hidden" name="next" value="{{ next }}">
 </form>
 <a href="{% url 'password_reset' %}">Reset my password</a>
+{% endblock %}
