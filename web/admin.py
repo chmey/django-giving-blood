@@ -2,6 +2,7 @@ from django.contrib.admin import AdminSite
 from django.contrib.auth.models import User
 from django.urls import path
 from .models import DonationPlace, Donation, Profile
+from news.models import Article
 from . import admin_views
 
 
@@ -17,4 +18,4 @@ class BloodAdminSite(AdminSite):
 
 
 admin_site = BloodAdminSite(name='bloodadmin')
-admin_site.register([Donation, DonationPlace, Profile, User])
+admin_site.register([Donation, DonationPlace, Profile, User, Article])
