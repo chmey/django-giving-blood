@@ -40,9 +40,11 @@ INSTALLED_APPS = [
     'django_countries',
     'web',
     'news',
+    'ipblocker',
 ]
 
 MIDDLEWARE = [
+ 	'ipblocker.crawler_middleware.CrawlerBlockerMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -130,3 +132,12 @@ EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 
 STATICFILES_DIRS = (os.path.join("Project", "static"),
     )
+MAX_ALLOWED_HITS_PER_IP = 200 # max allowed hits per IP_TIMEOUT time from an IP
+IP_HITS_TIMEOUT = 60  # timeout in seconds for IP in cache
+
+CACHES = {
+    'default': {
+        'BACKEND': 'django.core.cache.backends.db.DatabaseCache',
+        'LOCATION': 'cache_table',
+    }
+}
