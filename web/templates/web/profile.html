@@ -1,3 +1,6 @@
+{% extends "../base.html" %}
+{% block content %}
+
 <h1>Welcome {{user.username}}</h1>
 
 Django Auth Model:
@@ -26,3 +29,4 @@ Our Profile Model:
 <div>
   <p><a href="{% url 'logout' %}">Logout</a> <a href="{% url 'edit_profile' %}">Edit profile</a> <a href="{% url 'password_change'%}">Change password</a><a href="{% url 'delete-user' %}">Delete profile</a></p>
 </div>
+{% endblock %}

@@ -1,55 +1,16 @@
-<!--
-<div>
-	<title>Blood app</title>
-	{% load static %}
-	<link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}" type="text/css">
-	<p>suka bl</p>
-  <p><a href="{%url 'login' %}">Login</a> <a href="{% url 'logout' %}">Logout</a> <a href="{% url 'profile' %}">Profile</a></p>
-	-->
+{% extends "../base.html" %}
+{% block content %}
 
-<head>
-<body>
+<h2>Welcome!</h2>
+<p>
+Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce elementum lectus quis magna elementum lacinia. Sed eget lobortis sem. Proin a dui imperdiet orci fermentum efficitur faucibus sit amet ex. Aliquam molestie lacinia vehicula. Praesent id dolor ex. Nulla facilisi. Nunc scelerisque metus a lorem hendrerit, porta varius arcu cursus. Cras elementum justo vel enim maximus fringilla.
 
-<div>
-	{% load static %}
-	<link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}" type="text/css">
-<title>Blood app</title>
-  <div class="jumbotron">
-    <div class="container">
-      
-      <p><a href="/" class="btn btn-success "><i class="fas fa-magic mr-1"></i>HOME</a>
-      	 <a href="/news" class="btn btn-warning ">What's new</a>
-      	 <a type="button" class="btn btn-secondary">Info</a>
-      	 {% block content %}
-      	<h2>Thank you for becoming a blood donor!</h2>
-	    <p>What you’re about to do can save up to three lives — that’s pretty amazing.</p> 
-      	<p>It’s just one of the reasons why giving blood feels good.</p>
-        <p>It’s normal to feel a bit nervous about your first donation, but this guide will help ensure you have a great experience.</p>
-        
+Praesent mollis mattis venenatis. Vivamus nec lacinia metus. Proin id lacus consectetur, efficitur sapien efficitur, tempor nulla. Morbi rhoncus risus nec justo tempus, eu blandit lacus hendrerit. Pellentesque consectetur ipsum nibh, eu rutrum mauris blandit id. In vel bibendum mi, eu sollicitudin sapien. Quisque nec porttitor dolor. Curabitur in congue mauris. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Sed sed fringilla nisl. Vivamus euismod euismod nisl, eu semper mauris vehicula eu.
 
-      	
-         <a href="{% url 'signup' %}" class="btn btn-primary btn-lg">Sign up &raquo;</a>
-         <a href="{% url 'profile' %}" class="btn btn-info btn-lg">Your profile &raquo;</a>
-        
-        <p></p>
-    <p><a href="{% url 'login' %}" class="btn btn-primary btn-lg">Sign in &raquo;</a>
-        <a href="{% url 'logout' %}" class="btn btn-primary btn-lg">Sign out &raquo;</a>
+Nulla eleifend sem erat, vitae laoreet nisl porta vitae. Aliquam id massa non urna condimentum ultricies. Sed lobortis massa condimentum lacus rutrum sagittis. Nullam augue lorem, luctus vitae nulla eu, blandit elementum nibh. Suspendisse efficitur egestas risus id venenatis. Integer porttitor at elit nec efficitur. Sed vel diam nisi. Vestibulum in turpis quis tellus semper lacinia eu finibus enim. Nunc vulputate, quam eget pretium ultrices, mauris tellus ullamcorper quam, sed finibus risus eros vitae ex. Nullam malesuada eleifend dui non volutpat. Phasellus euismod arcu sed tortor euismod dapibus.
 
-    </p>
-    {% endblock %}
+Nunc interdum, ante a dignissim facilisis, neque neque placerat dolor, a dapibus nulla orci efficitur diam. Etiam placerat semper ante tincidunt dictum. Fusce in scelerisque diam, vulputate fermentum ligula. Proin rhoncus accumsan felis in lacinia. In tempor imperdiet libero vitae ultrices. Morbi gravida enim sed malesuada facilisis. Vestibulum non erat sit amet metus ornare pellentesque.
 
-
-
-        
-      </p>
-    </div>
-  </div>
-  <div class="container">
-    <img src="{% static '/image/1.jpg' %}" class="img-thumbnail">
-    <hr>
-    &copy; All rights reserved 2019 
-    &copy; Our lawer Julian will destroy you in case of copyright steal
-</div>
-
-</body>
-</head>
+Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Mauris eget massa congue urna luctus viverra. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Nam vel tortor ultricies, condimentum ligula ac, pulvinar nisl. Donec aliquet dui id sem sagittis, id porttitor mi eleifend. Sed ac tortor quis erat ullamcorper mollis eu ac elit. Fusce pellentesque mauris non lacus fermentum, a finibus sapien iaculis. Aliquam consectetur, nisl sit amet vulputate tempor, lorem lacus cursus nibh, in sodales lorem felis vitae ante. Proin pulvinar mattis bibendum. Aenean pellentesque velit non massa sagittis, nec finibus massa euismod. Fusce facilisis justo sit amet suscipit vulputate.
+</p>
+{% endblock %}
