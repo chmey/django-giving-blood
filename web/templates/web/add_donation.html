@@ -1,0 +1,8 @@
+<h1>Welcome {{user.username}}</h1>
+<h1>Here you can add your donation</h1>
+
+<form method="post">
+  {% csrf_token %}
+  {{ donation_form.as_p }}
+  <button type="submit">Add</button>
+</form>
