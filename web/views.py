@@ -94,3 +94,7 @@ def delete_user(request):
 
     logout(request)
     return render(request, 'web/index.html')
+
+
+def faq(request):
+	return render(request, 'web/faq.html')
