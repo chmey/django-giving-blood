@@ -1,0 +1,3 @@
+Hi!
+
+A new donation place was submitted. Review it here: {{url}}

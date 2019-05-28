@@ -1,17 +1,14 @@
 from django.shortcuts import render, redirect
-from django.http import HttpResponse
 from django.contrib.auth.forms import UserCreationForm
-from django.contrib.auth import login, authenticate , logout
+from django.contrib.auth import login, authenticate, logout
 from django.contrib.auth.decorators import login_required
-from .forms import UserForm, ProfileForm, InviteForm
+from .forms import UserForm, ProfileForm, InviteForm, DonationPlaceForm
 from django.contrib import messages
 from django.core.mail import EmailMultiAlternatives
 from django.urls import reverse
 from django.template.loader import get_template
-from django.template import Context
 from .apps import WebConfig
 from django.contrib.auth.models import User
-from django.contrib.auth import views as auth_views
 
 
 def index(request):
@@ -97,4 +94,27 @@ def delete_user(request):
 
 
 def faq(request):
-	return render(request, 'web/faq.html')
+    return render(request, 'web/faq.html')
+
+
+@login_required
+def add_donation_place(request):
+    if request.method == 'POST':
+        form = DonationPlaceForm(request.POST)
+        form.instance.contributor = request.user
+        form.instance.published = False
+        if form.is_valid():
+            new_place = form.save()
+            url = request.build_absolute_uri(reverse('admin:review-place', args=(new_place.pk, )))
+            subject = get_template('email/addplace_subject.txt').render().strip()
+            plain = get_template('email/addplace.txt').render({'url': url})
+            html_mail = get_template('email/addplace.html').render({'url': url})
+            msg = EmailMultiAlternatives(subject=subject, body=plain, from_email=WebConfig.from_email_admin, to=[WebConfig.from_email_admin])
+            msg.attach_alternative(html_mail, 'text/html')
+            msg.send()
+            messages.success(request, 'Donation facility was added and has to be reviewed by staff.')
+        else:
+            messages.error(request, 'The form contains errors. Please correct them.')
+    else:
+        form = DonationPlaceForm()
+    return render(request, 'web/add_donation_place.html', {'form': form})
