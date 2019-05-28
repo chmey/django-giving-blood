@@ -1,6 +1,5 @@
 from django.contrib.auth.models import User
-from .models import Profile
-from .models import Donation
+from .models import Profile, DonationPlace, Donation
 from django import forms
 from datetime import datetime
 
@@ -20,6 +19,12 @@ class ProfileForm(forms.ModelForm):
     class Meta:
         model = Profile
         fields = ('gender', 'birthdate', 'bloodtype', 'receive_notifications')
+
+
+class DonationPlaceForm(forms.ModelForm):
+    class Meta:
+        model = DonationPlace
+        exclude = ('contributor', 'published',)
 
 
 class InviteForm(forms.Form):

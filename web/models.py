@@ -4,6 +4,7 @@ from django.db.models.signals import post_save
 from django.dispatch import receiver
 from django_countries.fields import CountryField
 from django.utils import timezone
+from datetime import datetime, timedelta
 
 
 class Profile(models.Model):
@@ -39,6 +40,20 @@ class Profile(models.Model):
     @receiver(post_save, sender=User)
     def save_user_profile(sender, instance, **kwargs):
         instance.profile.save()
+
+    def get_next_donation(self):
+        donation = Donation.objects.latest('donationdate')
+        return donation.donationdate + timedelta(days=56)
+
+
+    def get_all_donations(self):
+        return Donation.objects.filter(user=self.user)
+
+    def date_in_allowed_interval(self, check_date):
+        user_donations = self.get_all_donations()
+        return not user_donations.filter(donationdate__range=[check_date - timedelta(days=56),
+                                                check_date + timedelta(days=56)])
+
 
 
 class DonationPlace(models.Model):
