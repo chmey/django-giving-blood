@@ -1,5 +1,4 @@
 from django.test import TestCase
-
 from .models import Donation, Profile
 from django.contrib.auth.models import User
 from datetime import datetime, timedelta

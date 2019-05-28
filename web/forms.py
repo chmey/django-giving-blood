@@ -32,7 +32,6 @@ class InviteForm(forms.Form):
 
 
 class AddDonationForm(forms.ModelForm):
-
     donationdate = forms.DateField(label='Donation date', initial=datetime.now(),
                                 widget=forms.DateInput(attrs={
                                     'type': 'date'

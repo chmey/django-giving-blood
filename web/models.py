@@ -41,19 +41,22 @@ class Profile(models.Model):
     def save_user_profile(sender, instance, **kwargs):
         instance.profile.save()
 
-    def get_next_donation(self):
-        donation = Donation.objects.latest('donationdate')
-        return donation.donationdate + timedelta(days=56)
+    def get_last_donation_date(self):
+        return Donation.objects.latest('donationdate').donationdate
 
+    def get_next_donation_date(self):
+        return self.get_last_donation_date() + timedelta(days=56)
 
     def get_all_donations(self):
         return Donation.objects.filter(user=self.user)
 
     def date_in_allowed_interval(self, check_date):
         user_donations = self.get_all_donations()
-        return not user_donations.filter(donationdate__range=[check_date - timedelta(days=56),
-                                                check_date + timedelta(days=56)])
-
+        return not user_donations.filter(donationdate__range=
+                                                [
+                                                    check_date - timedelta(days=56),
+                                                    check_date + timedelta(days=56)
+                                                ])
 
 
 class DonationPlace(models.Model):

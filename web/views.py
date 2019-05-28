@@ -94,6 +94,7 @@ def delete_user(request):
     logout(request)
     return render(request, 'web/index.html')
 
+
 @login_required
 def add_donation(request):
     if request.method == 'POST':
@@ -111,14 +112,17 @@ def add_donation(request):
         'donation_form': donation_form
     })
 
+
 @login_required
 def see_donations(request):
     return render(request, 'web/see_donations.html', {
         'donations': request.user.profile.get_all_donations().all()
     })
 
+
 def faq(request):
     return render(request, 'web/faq.html')
+
 
 @login_required
 def add_donation_place(request):
