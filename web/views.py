@@ -95,6 +95,8 @@ def delete_user(request):
 
 def faq(request):
     return render(request, 'web/faq.html')
+def news(request):
+    return render(request, 'news/')
 
 
 @login_required
