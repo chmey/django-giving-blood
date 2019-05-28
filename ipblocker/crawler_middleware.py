@@ -15,7 +15,6 @@ class CrawlerBlockerMiddleware(object):
         x_forwarded_for = request.META.get('HTTP_X_FORWARDED_FOR')
         ip = x_forwarded_for.split(',')[0] if x_forwarded_for else request.META.get('REMOTE_ADDR')
         # unique key for each IP
-        print(ip)
         ip_cache_key = "django_bot_crawler_blocker:ip_rate" + ip
 
         ip_hits_timeout = settings.IP_HITS_TIMEOUT if hasattr(settings, 'IP_HITS_TIMEOUT') else 60
