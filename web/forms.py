@@ -21,6 +21,10 @@ class ProfileForm(forms.ModelForm):
         fields = ('gender', 'birthdate', 'bloodtype', 'receive_notifications')
 
 
+class DeleteUserForm(forms.Form):
+    password = forms.CharField(widget=forms.PasswordInput)
+
+
 class DonationPlaceForm(forms.ModelForm):
     class Meta:
         model = DonationPlace

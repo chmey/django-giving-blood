@@ -2,7 +2,7 @@ from django.shortcuts import render, redirect
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth import login, authenticate, logout
 from django.contrib.auth.decorators import login_required
-from .forms import UserForm, ProfileForm, InviteForm, DonationPlaceForm, AddDonationForm
+from .forms import UserForm, ProfileForm, InviteForm, DonationPlaceForm, AddDonationForm, DeleteUserForm
 from django.contrib import messages
 from django.core.mail import EmailMultiAlternatives
 from django.urls import reverse
@@ -82,15 +82,26 @@ def invite(request):
 
 @login_required
 def delete_user(request):
-    try:
-        u = request.user
-        u.delete()
-        messages.success(request, 'User deleted.')
-    except User.DoesNotExist:
-        messages.error(request, 'User does not exist.')
-
-    logout(request)
-    return render(request, 'web/index.html')
+    if request.method == 'POST':
+        try:
+            u = request.user
+            confirmation_form = DeleteUserForm(request.POST)
+            if confirmation_form.is_valid():
+                if u.check_password(confirmation_form.cleaned_data.get('password')):
+                    u.delete()
+                    messages.success(request, 'User deleted.')
+                    logout(request)
+                    return render(request, 'web/index.html')
+                else:
+                    messages.error(request, 'The password is wrong.')
+            else:
+                messages.error(request, 'Invalid input.')
+        except User.DoesNotExist:
+            messages.error(request, 'User does not exist.')
+    confirmation_form = DeleteUserForm()
+    return render(request, 'web/delete_user.html', {
+         'confirmation_form': confirmation_form
+    })
 
 
 @login_required
