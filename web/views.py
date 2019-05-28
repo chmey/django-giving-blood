@@ -9,8 +9,6 @@ from django.urls import reverse
 from django.template.loader import get_template
 from .apps import WebConfig
 from django.contrib.auth.models import User
-from django.contrib.auth import views as auth_views
-from django.views import generic
 
 
 def index(request):

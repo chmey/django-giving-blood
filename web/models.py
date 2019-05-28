@@ -71,7 +71,7 @@ class DonationPlace(models.Model):
     published = models.BooleanField(default=False)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
-    
+
     def __str__(self):
         return str(self.name) + " in street " + str(self.street) + ", city: " + str(self.name) + ". Country: " + str(self.get_country_display())
 
