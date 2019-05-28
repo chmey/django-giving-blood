@@ -5,7 +5,7 @@ services:
     image: postgres
   web:
     build: .
-    command: bash -c "sleep 10 && python manage.py makecachetable && python manage.py migrate && python manage.py runserver 0.0.0.0:8000"
+    command: bash -c "sleep 10 && python manage.py createcachetable && python manage.py migrate && python manage.py runserver 0.0.0.0:8000"
     volumes:
       - .:/code
     ports:
