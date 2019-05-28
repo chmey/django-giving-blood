@@ -40,9 +40,14 @@ class AddDonationForm(forms.ModelForm):
         cleaned_data = super().clean()
         date = cleaned_data.get("donationdate")
         
-        if not self.istance.date_in_allowed_interval():
-            raise forms.ValidationError(
-                    "You should't be able do donate in this date"
-                )
+        def clean_recipients(self):
+            data = self.cleaned_data['recipients']
+            if "fred@example.com" not in data:
+                raise forms.ValidationError("You have forgotten about Fred!")
+
+            # Always return a value to use as the new cleaned data, even if
+            # this method didn't change it.
+            return data
+
 
         
