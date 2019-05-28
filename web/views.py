@@ -100,12 +100,13 @@ def delete_user(request):
 def add_donation(request):
     if request.method == 'POST':
         donation_form = AddDonationForm(request.POST)
+        donation_form.instance.user = request.user
         if donation_form.is_valid():
             donation_form.save()
-            messages.success(request, 'Profile updated.')
+            messages.success(request, 'Donation added.')
             return redirect('add-donation')
         else:
-            messages.error(request, 'Profile update failed. Please correct the errors.')
+            messages.error(request, 'Donation adding failed. Please correct the errors.')
     else:
         donation_form = AddDonationForm()
     return render(request, 'web/add_donation.html', {
@@ -114,6 +115,9 @@ def add_donation(request):
 
 @login_required
 def see_donations(request):
-    return render(request, 'web/see_donations.html')
+    return render(request, 'web/see_donations.html', {
+        'donations': request.user.get_all_donations()
+    })
+
 def faq(request):
-	return render(request, 'web/faq.html')
+    return render(request, 'web/faq.html')

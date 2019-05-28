@@ -25,7 +25,8 @@ class ProfileForm(forms.ModelForm):
 class InviteForm(forms.Form):
     email = forms.EmailField(required=True)
 
-class AddDonationForm(forms.Form):
+class AddDonationForm(forms.ModelForm):
+    
     donationdate = forms.DateField(label='Donation date', initial=datetime.now(),
                                 widget=forms.DateInput(attrs={
                                     'type': 'date'
@@ -33,4 +34,15 @@ class AddDonationForm(forms.Form):
 
     class Meta:
         model = Donation
-        exclude = ('created_at', 'updated_at')
+        exclude = ('created_at', 'updated_at', 'user')
+        
+    def clean(self):
+        cleaned_data = super().clean()
+        date = cleaned_data.get("donationdate")
+        
+        if not self.istance.date_in_allowed_interval():
+            raise forms.ValidationError(
+                    "You should't be able do donate in this date"
+                )
+
+        

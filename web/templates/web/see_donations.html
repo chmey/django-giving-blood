@@ -1,10 +1,10 @@
 <h1>Welcome {{user.username}}</h1>
 <h1>Here you can see your donations</h1>
 
-{% for result in page.object_list %}
+<h3>You have done {{donations.length()}}</h3>
+
+{% for result in donations.object_list %}
     <p>
-        Donation
+        {{result}}
     </p>
-{% empty %}
-        <p>No results found.</p>
 {% endfor %}
