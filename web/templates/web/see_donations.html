@@ -1,10 +1,21 @@
-<h1>Welcome {{user.username}}</h1>
+{% extends "../base.html" %}
+{% block content %}
 <h1>Here you can see your donations</h1>
 
-<h3>You have done {{ donations|length }}</h3>
+{% if not donations|length %}
 
-{% for result in donations %}
-    <p>
-        {{result}}
-    </p>
-{% endfor %}
+    <h3>You haven't done any donations yet</h3>
+
+{% else %}
+
+    <h3>You have done {{ donations|length }} donations</h3>
+
+    {% for result in donations %}
+        <p>
+            You have donate on {{result.donationdate.date}} {% if result.place %} in {{result.place}} {% endif %}
+        </p>
+    {% endfor %}
+
+{% endif %}
+
+{% endblock %}
