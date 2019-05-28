@@ -115,3 +115,5 @@ def add_donation(request):
 @login_required
 def see_donations(request):
     return render(request, 'web/see_donations.html')
+def faq(request):
+	return render(request, 'web/faq.html')

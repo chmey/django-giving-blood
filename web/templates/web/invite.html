@@ -1,3 +1,5 @@
+{% extends "../base.html" %}
+{% block content %}
 <h1>Invite a friend</h1>
 {% if messages %}
 <ul class="messages">
@@ -12,3 +14,4 @@
   {{ form.as_p }}
   <button type="submit">Invite friend</button>
 </form>
+{% endblock %}
