@@ -42,8 +42,8 @@ class Profile(models.Model):
         instance.profile.save()
 
     def get_next_donation(self):
-        donation = Donation.objects.latest('time')
-        return donation.time + timedelta(days=56)
+        donation = Donation.objects.latest('donationdate')
+        return donation.donationdate + timedelta(days=56)
 
 
     def get_all_donations(self):
@@ -51,7 +51,7 @@ class Profile(models.Model):
 
     def date_in_allowed_interval(self, check_date):
         user_donations = self.get_all_donations()
-        return not user_donations.filter(time__range=[check_date - timedelta(days=56),
+        return not user_donations.filter(donationdate__range=[check_date - timedelta(days=56),
                                                 check_date + timedelta(days=56)])
 
 

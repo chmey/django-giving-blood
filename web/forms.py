@@ -1,10 +1,5 @@
 from django.contrib.auth.models import User
-<<<<<<< HEAD
-from .models import Profile, DonationPlace
-=======
-from .models import Profile
-from .models import Donation
->>>>>>> origin/form-donation-davide
+from .models import Profile, DonationPlace, Donation
 from django import forms
 from datetime import datetime
 
@@ -35,8 +30,9 @@ class DonationPlaceForm(forms.ModelForm):
 class InviteForm(forms.Form):
     email = forms.EmailField(required=True)
 
+
 class AddDonationForm(forms.ModelForm):
-    
+
     donationdate = forms.DateField(label='Donation date', initial=datetime.now(),
                                 widget=forms.DateInput(attrs={
                                     'type': 'date'
@@ -45,14 +41,16 @@ class AddDonationForm(forms.ModelForm):
     class Meta:
         model = Donation
         exclude = ('created_at', 'updated_at', 'user')
-        
+
     def clean(self):
         cleaned_data = super().clean()
         date = cleaned_data.get("donationdate")
-        
-        if not self.istance.date_in_allowed_interval():
-            raise forms.ValidationError(
-                    "You should't be able do donate in this date"
-                )
 
-        
+        def clean_recipients(self):
+            data = self.cleaned_data['recipients']
+            if "fred@example.com" not in data:
+                raise forms.ValidationError("You have forgotten about Fred!")
+
+            # Always return a value to use as the new cleaned data, even if
+            # this method didn't change it.
+            return data

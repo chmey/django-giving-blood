@@ -114,13 +114,11 @@ def add_donation(request):
 @login_required
 def see_donations(request):
     return render(request, 'web/see_donations.html', {
-        'donations': request.user.get_all_donations()
+        'donations': request.user.profile.get_all_donations().all()
     })
 
 def faq(request):
     return render(request, 'web/faq.html')
-<<<<<<< HEAD
-
 
 @login_required
 def add_donation_place(request):
@@ -143,5 +141,3 @@ def add_donation_place(request):
     else:
         form = DonationPlaceForm()
     return render(request, 'web/add_donation_place.html', {'form': form})
-=======
->>>>>>> origin/form-donation-davide
