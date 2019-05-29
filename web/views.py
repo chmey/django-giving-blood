@@ -141,3 +141,4 @@ def add_donation_place(request):
     else:
         form = DonationPlaceForm()
     return render(request, 'web/add_donation_place.html', {'form': form})
+

@@ -41,16 +41,10 @@ class AddDonationForm(forms.ModelForm):
     class Meta:
         model = Donation
         exclude = ('created_at', 'updated_at', 'user')
-
-    def clean(self):
-        cleaned_data = super().clean()
-        date = cleaned_data.get("donationdate")
-
-        def clean_recipients(self):
-            data = self.cleaned_data['recipients']
-            if "fred@example.com" not in data:
-                raise forms.ValidationError("You have forgotten about Fred!")
-
-            # Always return a value to use as the new cleaned data, even if
-            # this method didn't change it.
-            return data
+    
+    def clean_recipients(self):
+        data = self.cleaned_data['recipients']
+        if "fred@example.com" not in data:
+            raise forms.ValidationError("You have forgotten about Fred!")
+        
+        return data
