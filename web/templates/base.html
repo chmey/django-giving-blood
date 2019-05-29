@@ -38,6 +38,15 @@
    </nav>
    <main role="main" class="container">
       <div class="jumbotron">
+        {% if messages %}
+        <div class="row">
+          <div class="col-12">
+            {% for message in messages %}
+            <div class="alert {% if message.tags %}alert-{{ message.tags }}{% endif %}">{{ message }}</div>
+            {% endfor %}
+          </div>
+        </div>
+        {% endif %}
         {% block content %}{% endblock content %}
       </div>
     </main>
