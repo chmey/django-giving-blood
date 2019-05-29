@@ -4,6 +4,7 @@ from django.db.models.signals import post_save
 from django.dispatch import receiver
 from django_countries.fields import CountryField
 from django.utils import timezone
+from datetime import datetime, timedelta
 
 
 class Profile(models.Model):
@@ -40,8 +41,26 @@ class Profile(models.Model):
     def save_user_profile(sender, instance, **kwargs):
         instance.profile.save()
 
+    def get_last_donation_date(self):
+        return Donation.objects.latest('donationdate').donationdate
+
+    def get_next_donation_date(self):
+        return self.get_last_donation_date() + timedelta(days=56)
+
+    def get_all_donations(self):
+        return Donation.objects.filter(user=self.user)
+
+    def date_in_allowed_interval(self, check_date):
+        user_donations = self.get_all_donations()
+        return not user_donations.filter(donationdate__range=
+                                                [
+                                                    check_date - timedelta(days=56),
+                                                    check_date + timedelta(days=56)
+                                                ])
+
 
 class DonationPlace(models.Model):
+    contributor = models.ForeignKey(User, on_delete=models.CASCADE)
     name = models.CharField(max_length=100, unique=True)
     street = models.CharField(max_length=100)
     house = models.CharField(max_length=5, blank=True)
@@ -49,14 +68,17 @@ class DonationPlace(models.Model):
     postal_code = models.CharField(max_length=32)
     city = models.CharField(max_length=100)
     country = CountryField()
-    publish = models.BooleanField(default=True)
+    published = models.BooleanField(default=False)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
+    def __str__(self):
+        return str(self.name) + " in street " + str(self.street) + ", city: " + str(self.name) + ". Country: " + str(self.get_country_display())
+
 
 class Donation(models.Model):
-    user = models.OneToOneField(User, on_delete=models.CASCADE)
-    time = models.DateTimeField(default=timezone.now)
+    user = models.ForeignKey(User, on_delete=models.CASCADE, blank = False)
+    donationdate = models.DateTimeField(default=timezone.now, blank = False)
     place = models.ForeignKey(DonationPlace, on_delete=models.CASCADE, blank=True, null=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)

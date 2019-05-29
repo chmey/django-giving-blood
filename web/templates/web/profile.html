@@ -1,3 +1,6 @@
+{% extends "../base.html" %}
+{% block content %}
+
 <h1>Welcome {{user.username}}</h1>
 
 Django Auth Model:
@@ -16,13 +19,15 @@ Django Auth Model:
 
 Our Profile Model:
 <ul>
-  <li>{{user.profile.birthdate}}</li>
-  <li>{{user.profile.receive_notifications}}</li>
-  <li>{{user.profile.bloodtype}}</li>
-  <li>{{user.profile.gender}}</li>
-
+  <li>Birthdate: {{user.profile.birthdate}}</li>
+  <li>Receive Notifications: {{user.profile.receive_notifications}}</li>
+  <li>Bloodtype: {{user.profile.get_bloodtype_display}}</li>
+  <li>Gender: {{user.profile.get_gender_display}}</li>
+  <li>You last donated: {{user.profile.get_last_donation_date}}</li>
+  <li>For your health, you should not donate before: {{user.profile.get_next_donation_date}}</li>
 </ul>
 
 <div>
-  <p><a href="{% url 'logout' %}">Logout</a> <a href="{% url 'edit_profile' %}">Edit profile</a> <a href="{% url 'password_change'%}">Change password</a><a href="{% url 'delete-user' %}">Delete profile</a></p>
+  <p><a href="{% url 'logout' %}">Logout</a> <a href="{% url 'edit_profile' %}">Edit profile</a> <a href="{% url 'password_change'%}">Change password</a> <a href="{% url 'delete-user' %}">Delete profile</a></p>
 </div>
+{% endblock %}

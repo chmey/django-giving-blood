@@ -1,10 +1,10 @@
 {% extends "../base.html" %}
 {% block content %}
-<h1>Invite a friend</h1>
+<h1>Here you can add your donation</h1>
 
 <form method="post">
   {% csrf_token %}
-  {{ form.as_p }}
-  <button type="submit">Invite friend</button>
+  {{ donation_form.as_p }}
+  <button type="submit">Add</button>
 </form>
 {% endblock %}

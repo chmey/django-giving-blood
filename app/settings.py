@@ -39,11 +39,12 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'django_countries',
     'web',
-    'api',
     'news',
+    'ipblocker',
 ]
 
 MIDDLEWARE = [
+ 	'ipblocker.crawler_middleware.CrawlerBlockerMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -121,6 +122,7 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/2.2/howto/static-files/
 
 STATIC_URL = '/static/'
+STATICFILES_DIRS = (os.path.join("Project", "static"),)
 
 LOGIN_URL = '/auth/login'
 LOGOUT_REDIRECT_URL = '/'
@@ -129,5 +131,12 @@ LOGIN_REDIRECT_URL = '/profile'
 # TODO REMOVE ME FOR PRODUCTION
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 
-STATICFILES_DIRS = (os.path.join("Project", "static"), 
-    )
+MAX_ALLOWED_HITS_PER_IP = 200 # max allowed hits per IP_TIMEOUT time from an IP
+IP_HITS_TIMEOUT = 60  # timeout in seconds for IP in cache
+
+CACHES = {
+    'default': {
+        'BACKEND': 'django.core.cache.backends.db.DatabaseCache',
+        'LOCATION': 'cache_table',
+    }
+}

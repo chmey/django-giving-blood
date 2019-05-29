@@ -1,17 +1,14 @@
 from django.shortcuts import render, redirect
-from django.http import HttpResponse
 from django.contrib.auth.forms import UserCreationForm
-from django.contrib.auth import login, authenticate , logout
+from django.contrib.auth import login, authenticate, logout
 from django.contrib.auth.decorators import login_required
-from .forms import UserForm, ProfileForm, InviteForm
+from .forms import UserForm, ProfileForm, InviteForm, DonationPlaceForm, AddDonationForm
 from django.contrib import messages
 from django.core.mail import EmailMultiAlternatives
 from django.urls import reverse
 from django.template.loader import get_template
-from django.template import Context
 from .apps import WebConfig
 from django.contrib.auth.models import User
-from django.contrib.auth import views as auth_views
 
 
 def index(request):
@@ -72,7 +69,7 @@ def invite(request):
             con = {'user': request.user.email, 'url': request.build_absolute_uri(reverse('signup'))}
             plain = get_template('email/invite.txt').render(con)
             html_mail = get_template('email/invite.html').render(con)
-            msg = EmailMultiAlternatives(subject=subject, body=plain, from_email=WebConfig.from_email, to=[form.cleaned_data['email']])
+            msg = EmailMultiAlternatives(subject=subject, body=plain, from_email=WebConfig.from_email_invite, to=[form.cleaned_data['email']])
             msg.attach_alternative(html_mail, 'text/html')
             msg.send()
             messages.success(request, 'Your invitation was sent')
@@ -94,3 +91,59 @@ def delete_user(request):
 
     logout(request)
     return render(request, 'web/index.html')
+
+
+@login_required
+def add_donation(request):
+    if request.method == 'POST':
+        donation_form = AddDonationForm(request.POST)
+        donation_form.instance.user = request.user
+        if donation_form.is_valid():
+            donation_form.save()
+            messages.success(request, 'Donation added.')
+            return redirect('add-donation')
+        else:
+            messages.error(request, 'Donation adding failed. Please correct the errors.')
+    else:
+        donation_form = AddDonationForm()
+    return render(request, 'web/add_donation.html', {
+        'donation_form': donation_form
+    })
+
+
+@login_required
+def see_donations(request):
+    return render(request, 'web/see_donations.html', {
+        'donations': request.user.profile.get_all_donations().all()
+    })
+
+
+def faq(request):
+    return render(request, 'web/faq.html')
+
+
+def news(request):
+    return render(request, 'news/index.html')
+
+
+@login_required
+def add_donation_place(request):
+    if request.method == 'POST':
+        form = DonationPlaceForm(request.POST)
+        form.instance.contributor = request.user
+        form.instance.published = False
+        if form.is_valid():
+            new_place = form.save()
+            url = request.build_absolute_uri(reverse('admin:review-place', args=(new_place.pk, )))
+            subject = get_template('email/addplace_subject.txt').render().strip()
+            plain = get_template('email/addplace.txt').render({'url': url})
+            html_mail = get_template('email/addplace.html').render({'url': url})
+            msg = EmailMultiAlternatives(subject=subject, body=plain, from_email=WebConfig.from_email_admin, to=[WebConfig.from_email_admin])
+            msg.attach_alternative(html_mail, 'text/html')
+            msg.send()
+            messages.success(request, 'Donation facility was added and has to be reviewed by staff.')
+        else:
+            messages.error(request, 'The form contains errors. Please correct them.')
+    else:
+        form = DonationPlaceForm()
+    return render(request, 'web/add_donation_place.html', {'form': form})

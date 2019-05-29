@@ -1,0 +1,19 @@
+{% extends "../base.html" %}
+{% block content %}
+<p>User {{place.contributor.username}} ({{place.contributor.email}}, <b>{{num_contributions}}</b> Place Contributions) has submitted this locality:</p>
+
+<div>
+  {{place.name}} <br>
+  {{place.street}} <br>
+  {{place.house}} <br>
+  {{place.address_supplement}} <br>
+  {{place.postal_code}} {{place.city}} <br>
+  {{place.country}} <br>
+  {{place.created_at}}
+</div>
+
+<form method="post">
+  {% csrf_token %}
+  <button type="submit" value="true" name="approve">Approve & Publish</button>
+</form>
+{% endblock %}
