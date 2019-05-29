@@ -42,9 +42,10 @@ class AddDonationForm(forms.ModelForm):
         model = Donation
         exclude = ('created_at', 'updated_at', 'user')
     
-    def clean_recipients(self):
-        data = self.cleaned_data['recipients']
-        if "fred@example.com" not in data:
-            raise forms.ValidationError("You have forgotten about Fred!")
-        
+
+    def clean_donationdate(self):
+        data = self.cleaned_data['donationdate']
+        if not self.instance.user.date_in_allowed_interval(data):
+            raise forms.ValidationError("You shouldn't be able to donate in this date")
         return data
+
