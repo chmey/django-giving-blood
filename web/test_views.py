@@ -2,6 +2,7 @@ from django.test import TestCase, Client
 from django.contrib.auth.models import User, AnonymousUser
 from django.urls import reverse
 from datetime import datetime
+from .forms import DeleteUserForm
 
 
 class ViewsTestCase(TestCase):
@@ -121,17 +122,26 @@ class ViewsTestCase(TestCase):
         resp = c.get(reverse('delete-user'))
         self.assertRedirects(resp, reverse('login')+'?next='+reverse('delete-user'))
 
-    def test_delete_user(self):
+    def test_delete_user_fail(self):
         c = Client()
-        u = User.objects.create_user('testcase')
+        u = User.objects.create_user('testcase', password='123456')
         c.force_login(user=u)
         self.assertTrue(u.is_authenticated)
-        resp = c.get(reverse('delete-user'), follow=True)
+        resp = c.post(reverse('delete-user'), {}, follow=True)
+        self.assertFormError(resp, 'confirmation_form', 'password', 'This field is required.')
+
+    def test_delete_user_success(self):
+        c = Client()
+        u = User.objects.create_user('testcase', password='123456')
+        c.force_login(user=u)
+        self.assertTrue(u.is_authenticated)
+        resp = c.post(reverse('delete-user'), {'password': '123456'}, follow=True)
         self.assertIsInstance(resp.context['user'], AnonymousUser)
 
     def test_delete_invalid_user(self):
         c = Client()
-        u = User.objects.get_by_natural_key('DOESNOTEXIST')
+        u = User.objects.create_user('testcase', password='123456')
         c.force_login(user=u)
+        c.get(reverse('delete-user'), follow=True)
         c.get(reverse('delete-user'), follow=True)
         self.assertRaises(User.DoesNotExist)

@@ -98,7 +98,8 @@ def delete_user(request):
                 messages.error(request, 'Invalid input.')
         except User.DoesNotExist:
             messages.error(request, 'User does not exist.')
-    confirmation_form = DeleteUserForm()
+    else:
+        confirmation_form = DeleteUserForm()
     return render(request, 'web/delete_user.html', {
          'confirmation_form': confirmation_form
     })
