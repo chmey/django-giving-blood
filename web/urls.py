@@ -22,6 +22,7 @@ urlpatterns = [
         path('invite', views.invite, name='invite'),
         path('auth/delete', views.delete_user, name='delete-user'),
         path('add', views.add_donation, name='add-donation'),
+        path('edit/<donation_id>', views.edit_donation, name='edit-donation'),
         path('donations', views.see_donations, name='see-donations'),
         path('faq', views.faq, name='faq'),
         path('places/add', views.add_donation_place, name='add-donation-place')

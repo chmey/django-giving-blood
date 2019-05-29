@@ -112,6 +112,19 @@ def add_donation(request):
     })
 
 @login_required
+def edit_donation(request, donation_id):
+    instance = get_object_or_404(User, id=donation_id)
+    form = AddDonationForm(request.POST or None, instance=instance)
+    if form.is_valid():
+        form.save()
+        messages.success(request, 'Donation edited.')
+        return redirect('edit-donation')
+    return render(request, 'web/add_donation.html', {
+        'donation_form': form
+    })
+
+
+@login_required
 def see_donations(request):
     return render(request, 'web/see_donations.html', {
         'donations': request.user.profile.get_all_donations().all()
