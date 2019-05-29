@@ -24,5 +24,6 @@ urlpatterns = [
         path('add', views.add_donation, name='add-donation'),
         path('donations', views.see_donations, name='see-donations'),
         path('faq', views.faq, name='faq'),
-        path('places/add', views.add_donation_place, name='add-donation-place')
+        path('places/add', views.add_donation_place, name='add-donation-place'),
+        path('news', views.news, name='news'),
     ]
