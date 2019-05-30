@@ -41,11 +41,4 @@ class AddDonationForm(forms.ModelForm):
     class Meta:
         model = Donation
         exclude = ('created_at', 'updated_at', 'user')
-    
-
-    def clean_donationdate(self):
-        data = self.cleaned_data['donationdate']
-        if not self.instance.user.profile.date_in_allowed_interval(data):
-            raise forms.ValidationError("You shouldn't be able to donate in this date")
-        return data
 

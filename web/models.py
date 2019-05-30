@@ -55,6 +55,7 @@ class Profile(models.Model):
                                                 check_date + timedelta(days=56)])
 
 
+
 class DonationPlace(models.Model):
     contributor = models.ForeignKey(User, on_delete=models.CASCADE)
     name = models.CharField(max_length=100, unique=True)
@@ -69,7 +70,7 @@ class DonationPlace(models.Model):
     updated_at = models.DateTimeField(auto_now=True)
     
     def __str__(self):
-        return str(self.name) + " in street " + str(self.street) + ", city: " + str(self.name) + ". Country: " + str(self.get_country_display())
+        return str(self.name) + " in street " + str(self.street) + ", city: " + str(self.name) + ". Country: " + str(self.get_country_display)
 
 
 class Donation(models.Model):

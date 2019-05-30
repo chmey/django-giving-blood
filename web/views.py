@@ -10,7 +10,9 @@ from django.template.loader import get_template
 from .apps import WebConfig
 from django.contrib.auth.models import User
 from django.contrib.auth import views as auth_views
+from django.shortcuts import get_object_or_404
 from django.views import generic
+from .models import Donation
 
 
 def index(request):
@@ -102,6 +104,8 @@ def add_donation(request):
         if donation_form.is_valid():
             donation_form.save()
             messages.success(request, 'Donation added.')
+            if not request.user.profile.date_in_allowed_interval(data, self.instance.user.profile):
+                messages.error(forms.ValidationError("You shouldn't be able to donate in this date"))
             return redirect('add-donation')
         else:
             messages.error(request, 'Donation adding failed. Please correct the errors.')
@@ -113,7 +117,7 @@ def add_donation(request):
 
 @login_required
 def edit_donation(request, donation_id):
-    instance = get_object_or_404(User, id=donation_id)
+    instance = get_object_or_404(Donation, id=donation_id)
     form = AddDonationForm(request.POST or None, instance=instance)
     if form.is_valid():
         form.save()
