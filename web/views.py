@@ -9,9 +9,7 @@ from django.urls import reverse
 from django.template.loader import get_template
 from .apps import WebConfig
 from django.contrib.auth.models import User
-from django.contrib.auth import views as auth_views
 from django.shortcuts import get_object_or_404
-from django.views import generic
 from .models import Donation
 
 
@@ -20,6 +18,7 @@ def index(request):
     return render(request, 'web/index.html', context)
 
 
+# AUTH VIEWS
 def signup(request):
     if request.user.is_authenticated:
         return redirect('index')
@@ -38,6 +37,31 @@ def signup(request):
     return render(request, 'auth/signup.html', {'form': form})
 
 
+@login_required
+def delete_user(request):
+    if request.method == 'POST':
+        try:
+            u = request.user
+            confirmation_form = DeleteUserForm(request.POST)
+            if confirmation_form.is_valid():
+                if u.check_password(confirmation_form.cleaned_data.get('password')):
+                    u.delete()
+                    messages.success(request, 'User deleted.')
+                    logout(request)
+                    return render(request, 'web/index.html')
+                else:
+                    messages.error(request, 'The password is wrong.')
+            else:
+                messages.error(request, 'Invalid input.')
+        except User.DoesNotExist:
+            messages.error(request, 'User does not exist.')
+    else:
+        confirmation_form = DeleteUserForm()
+    return render(request, 'web/delete_user.html', {
+            'confirmation_form': confirmation_form
+        })
+
+# PROFILE VIEWS
 @login_required
 def profile(request):
     return render(request, 'web/profile.html', {'user': request.user})
@@ -64,6 +88,59 @@ def edit_profile(request):
     })
 
 
+# BLOOD DONATION VIEWS
+@login_required
+def add_donation(request):
+    if request.method == 'POST':
+        donation_form = AddDonationForm(request.POST)
+        donation_form.instance.user = request.user
+        if donation_form.is_valid():
+            donation_form.save()
+            messages.success(request, 'Donation added.')
+            if not request.user.profile.date_in_allowed_interval(donation_form.instance.donationdate):
+                messages.error(request, "You shouldn't be able to donate in this date")
+            return redirect('see-donations')
+        else:
+            messages.error(request, 'Donation adding failed. Please correct the errors.')
+    else:
+        donation_form = AddDonationForm()
+    return render(request, 'web/add_donation.html', {
+        'donation_form': donation_form
+    })
+
+
+@login_required
+def see_donations(request):
+    return render(request, 'web/see_donations.html', {
+        'donations': request.user.profile.get_all_donations().all()
+    })
+
+
+@login_required
+def edit_donation(request, donation_id):
+    instance = get_object_or_404(Donation, id=donation_id)
+    form = AddDonationForm(request.POST or None, instance=instance)
+    if form.is_valid():
+        form.save()
+        messages.success(request, 'Donation edited.')
+        if not request.user.profile.date_in_allowed_interval(form.instance.donationdate):
+            messages.error(request, "You shouldn't be able to donate in this date")
+        return redirect('see-donations')
+    return render(request, 'web/add_donation.html', {
+        'donation_form': form
+    })
+
+
+@login_required
+def drop_donation(request, donation_id):
+    instance = get_object_or_404(Donation, id=donation_id)
+    if request.method == 'POST':
+        instance.delete()
+        messages.success(request, 'Donation dropped.')
+        return render(request, 'web/profile.html', {'user': request.user})
+    return render(request, 'web/drop_donation.html')
+
+
 @login_required
 def invite(request):
     if request.method == 'POST':
@@ -83,104 +160,6 @@ def invite(request):
         form = InviteForm()
     return render(request, 'web/invite.html', {'form': form})
 
-
-@login_required
-def delete_user(request):
-    if request.method == 'POST':
-        try:
-            u = request.user
-            confirmation_form = DeleteUserForm(request.POST)
-            if confirmation_form.is_valid():
-                if u.check_password(confirmation_form.cleaned_data.get('password')):
-                    u.delete()
-                    messages.success(request, 'User deleted.')
-                    logout(request)
-                    return render(request, 'web/index.html')
-                else:
-                    messages.error(request, 'The password is wrong.')
-            else:
-                messages.error(request, 'Invalid input.')
-        except User.DoesNotExist:
-            messages.error(request, 'User does not exist.')
-    else:
-        confirmation_form = DeleteUserForm()
-    return render(request, 'web/delete_user.html', {
-         'confirmation_form': confirmation_form
-    })
-
-
-@login_required
-def add_donation(request):
-    if request.method == 'POST':
-        donation_form = AddDonationForm(request.POST)
-        donation_form.instance.user = request.user
-        if donation_form.is_valid():
-            donation_form.save()
-            messages.success(request, 'Donation added.')
-            return redirect('add-donation')
-        else:
-            messages.error(request, 'Donation adding failed. Please correct the errors.')
-    else:
-        donation_form = AddDonationForm()
-    return render(request, 'web/add_donation.html', {
-        'donation_form': donation_form
-    })
-
-
-@login_required
-def see_donations(request):
-    return render(request, 'web/see_donations.html', {
-        'donations': request.user.profile.get_all_donations().all()
-    })
-
-@login_required
-def add_donation(request):
-    if request.method == 'POST':
-        donation_form = AddDonationForm(request.POST)
-        donation_form.instance.user = request.user
-        if donation_form.is_valid():
-            donation_form.save()
-            messages.success(request, 'Donation added.')
-            if not request.user.profile.date_in_allowed_interval(donation_form.instance.donationdate):
-                messages.error(request, "You shouldn't be able to donate in this date")
-            return redirect('add-donation')
-        else:
-            messages.error(request, 'Donation adding failed. Please correct the errors.')
-    else:
-        donation_form = AddDonationForm()
-    return render(request, 'web/add_donation.html', {
-        'donation_form': donation_form
-    })
-
-@login_required
-def edit_donation(request, donation_id):
-    instance = get_object_or_404(Donation, id=donation_id)
-    form = AddDonationForm(request.POST or None, instance=instance)
-    if form.is_valid():
-        form.save()
-        messages.success(request, 'Donation edited.')
-        if not request.user.profile.date_in_allowed_interval(form.instance.donationdate):
-                messages.error(request, "You shouldn't be able to donate in this date")
-        return redirect('see-donations')
-    return render(request, 'web/add_donation.html', {
-        'donation_form': form
-    })
-
-@login_required
-def drop_donation(request, donation_id):
-    instance = get_object_or_404(Donation, id=donation_id)
-    if request.method == 'POST':
-        instance.delete()
-        messages.success(request, 'Donation dropped.')
-        return render(request, 'web/profile.html', {'user': request.user})
-    return render(request, 'web/drop_donation.html')
-
-
-@login_required
-def see_donations(request):
-    return render(request, 'web/see_donations.html', {
-        'donations': request.user.profile.get_all_donations().all()
-    })
 
 def faq(request):
     return render(request, 'web/faq.html')
