@@ -141,8 +141,8 @@ def add_donation(request):
         if donation_form.is_valid():
             donation_form.save()
             messages.success(request, 'Donation added.')
-            if not request.user.profile.date_in_allowed_interval(data, self.instance.user.profile):
-                messages.error(forms.ValidationError("You shouldn't be able to donate in this date"))
+            if not request.user.profile.date_in_allowed_interval(donation_form.instance.donationdate):
+                messages.error(request, "You shouldn't be able to donate in this date")
             return redirect('add-donation')
         else:
             messages.error(request, 'Donation adding failed. Please correct the errors.')
@@ -159,6 +159,8 @@ def edit_donation(request, donation_id):
     if form.is_valid():
         form.save()
         messages.success(request, 'Donation edited.')
+        if not request.user.profile.date_in_allowed_interval(form.instance.donationdate):
+                messages.error(request, "You shouldn't be able to donate in this date")
         return redirect('see-donations')
     return render(request, 'web/add_donation.html', {
         'donation_form': form
