@@ -2,7 +2,7 @@ from django.shortcuts import render, redirect
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth import login, authenticate, logout
 from django.contrib.auth.decorators import login_required
-from .forms import UserForm, ProfileForm, InviteForm, DonationPlaceForm, AddDonationForm
+from .forms import UserForm, ProfileForm, InviteForm, DonationPlaceForm, AddDonationForm, DeleteUserForm
 from django.contrib import messages
 from django.core.mail import EmailMultiAlternatives
 from django.urls import reverse
@@ -86,15 +86,52 @@ def invite(request):
 
 @login_required
 def delete_user(request):
-    try:
-        u = request.user
-        u.delete()
-        messages.success(request, 'User deleted.')
-    except User.DoesNotExist:
-        messages.error(request, 'User does not exist.')
+    if request.method == 'POST':
+        try:
+            u = request.user
+            confirmation_form = DeleteUserForm(request.POST)
+            if confirmation_form.is_valid():
+                if u.check_password(confirmation_form.cleaned_data.get('password')):
+                    u.delete()
+                    messages.success(request, 'User deleted.')
+                    logout(request)
+                    return render(request, 'web/index.html')
+                else:
+                    messages.error(request, 'The password is wrong.')
+            else:
+                messages.error(request, 'Invalid input.')
+        except User.DoesNotExist:
+            messages.error(request, 'User does not exist.')
+    else:
+        confirmation_form = DeleteUserForm()
+    return render(request, 'web/delete_user.html', {
+         'confirmation_form': confirmation_form
+    })
 
-    logout(request)
-    return render(request, 'web/index.html')
+
+@login_required
+def add_donation(request):
+    if request.method == 'POST':
+        donation_form = AddDonationForm(request.POST)
+        donation_form.instance.user = request.user
+        if donation_form.is_valid():
+            donation_form.save()
+            messages.success(request, 'Donation added.')
+            return redirect('add-donation')
+        else:
+            messages.error(request, 'Donation adding failed. Please correct the errors.')
+    else:
+        donation_form = AddDonationForm()
+    return render(request, 'web/add_donation.html', {
+        'donation_form': donation_form
+    })
+
+
+@login_required
+def see_donations(request):
+    return render(request, 'web/see_donations.html', {
+        'donations': request.user.profile.get_all_donations().all()
+    })
 
 @login_required
 def add_donation(request):
@@ -148,6 +185,11 @@ def see_donations(request):
 def faq(request):
     return render(request, 'web/faq.html')
 
+
+def news(request):
+    return render(request, 'news/index.html')
+
+
 @login_required
 def add_donation_place(request):
     if request.method == 'POST':
@@ -169,4 +211,3 @@ def add_donation_place(request):
     else:
         form = DonationPlaceForm()
     return render(request, 'web/add_donation_place.html', {'form': form})
-

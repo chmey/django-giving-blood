@@ -26,5 +26,6 @@ urlpatterns = [
         path('drop/<donation_id>', views.drop_donation, name='drop-donation'),
         path('donations', views.see_donations, name='see-donations'),
         path('faq', views.faq, name='faq'),
-        path('places/add', views.add_donation_place, name='add-donation-place')
+        path('places/add', views.add_donation_place, name='add-donation-place'),
+        path('news', views.news, name='news'),
     ]

@@ -1,9 +1,10 @@
 {% extends "../base.html" %}
 {% block content %}
-<h1>Add donation facility</h1>
+<h1>Delete your profile</h1>
+
 <form method="post">
   {% csrf_token %}
-  {{ form.as_p }}
-  <button type="submit">Submit</button>
+  {{ confirmation_form.as_p }}
+  <button type="submit">Delete</button>
 </form>
 {% endblock %}

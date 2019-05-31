@@ -21,6 +21,10 @@ class ProfileForm(forms.ModelForm):
         fields = ('gender', 'birthdate', 'bloodtype', 'receive_notifications')
 
 
+class DeleteUserForm(forms.Form):
+    password = forms.CharField(widget=forms.PasswordInput)
+
+
 class DonationPlaceForm(forms.ModelForm):
     class Meta:
         model = DonationPlace
@@ -32,7 +36,6 @@ class InviteForm(forms.Form):
 
 
 class AddDonationForm(forms.ModelForm):
-
     donationdate = forms.DateField(label='Donation date', initial=datetime.now(),
                                 widget=forms.DateInput(attrs={
                                     'type': 'date'
@@ -41,4 +44,3 @@ class AddDonationForm(forms.ModelForm):
     class Meta:
         model = Donation
         exclude = ('created_at', 'updated_at', 'user')
-
