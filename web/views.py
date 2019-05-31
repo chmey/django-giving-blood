@@ -58,9 +58,8 @@ def delete_user(request):
     else:
         confirmation_form = DeleteUserForm()
     return render(request, 'web/delete_user.html', {
-         'confirmation_form': confirmation_form
-    })
-
+            'confirmation_form': confirmation_form
+        })
 
 # PROFILE VIEWS
 @login_required
@@ -89,34 +88,7 @@ def edit_profile(request):
     })
 
 
-@login_required
-def invite(request):
-    if request.method == 'POST':
-        form = InviteForm(request.POST)
-        if form.is_valid():
-            subject = get_template('email/invite_subject.txt').render().strip()
-            con = {'user': request.user.email, 'url': request.build_absolute_uri(reverse('signup'))}
-            plain = get_template('email/invite.txt').render(con)
-            html_mail = get_template('email/invite.html').render(con)
-            msg = EmailMultiAlternatives(subject=subject, body=plain, from_email=WebConfig.from_email_invite, to=[form.cleaned_data['email']])
-            msg.attach_alternative(html_mail, 'text/html')
-            msg.send()
-            messages.success(request, 'Your invitation was sent')
-        else:
-            messages.error(request, 'Invitation failed. Please correct the errors.')
-    else:
-        form = InviteForm()
-    return render(request, 'web/invite.html', {'form': form})
-
-
 # BLOOD DONATION VIEWS
-@login_required
-def see_donations(request):
-    return render(request, 'web/see_donations.html', {
-        'donations': request.user.profile.get_all_donations().all()
-    })
-
-
 @login_required
 def add_donation(request):
     if request.method == 'POST':
@@ -135,6 +107,14 @@ def add_donation(request):
     return render(request, 'web/add_donation.html', {
         'donation_form': donation_form
     })
+
+
+@login_required
+def see_donations(request):
+    return render(request, 'web/see_donations.html', {
+        'donations': request.user.profile.get_all_donations().all()
+    })
+
 
 
 @login_required
@@ -160,6 +140,26 @@ def drop_donation(request, donation_id):
         messages.success(request, 'Donation dropped.')
         return render(request, 'web/profile.html', {'user': request.user})
     return render(request, 'web/drop_donation.html')
+
+
+@login_required
+def invite(request):
+    if request.method == 'POST':
+        form = InviteForm(request.POST)
+        if form.is_valid():
+            subject = get_template('email/invite_subject.txt').render().strip()
+            con = {'user': request.user.email, 'url': request.build_absolute_uri(reverse('signup'))}
+            plain = get_template('email/invite.txt').render(con)
+            html_mail = get_template('email/invite.html').render(con)
+            msg = EmailMultiAlternatives(subject=subject, body=plain, from_email=WebConfig.from_email_invite, to=[form.cleaned_data['email']])
+            msg.attach_alternative(html_mail, 'text/html')
+            msg.send()
+            messages.success(request, 'Your invitation was sent')
+        else:
+            messages.error(request, 'Invitation failed. Please correct the errors.')
+    else:
+        form = InviteForm()
+    return render(request, 'web/invite.html', {'form': form})
 
 
 def faq(request):
