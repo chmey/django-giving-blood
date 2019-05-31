@@ -122,7 +122,7 @@ def edit_donation(request, donation_id):
     if form.is_valid():
         form.save()
         messages.success(request, 'Donation edited.')
-        return redirect('edit-donation')
+        return redirect('see-donations')
     return render(request, 'web/add_donation.html', {
         'donation_form': form
     })
@@ -167,4 +167,3 @@ def add_donation_place(request):
     else:
         form = DonationPlaceForm()
     return render(request, 'web/add_donation_place.html', {'form': form})
-
