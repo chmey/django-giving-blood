@@ -11,9 +11,13 @@
     <h3>You have done {{ donations|length }} donations</h3>
 
     {% for result in donations %}
-        <p>
-            You have donate on {{result.donationdate.date}} {% if result.place %} in {{result.place}} {% endif %}
-        </p>
+        <div>
+            <p>
+                You have donate on {{result.donationdate.date}} {% if result.place %} in {{result.place}} {% endif %}
+            </p>
+            <input type="submit" value="Drop" name="drop-donation" onclick="location.href='{% url 'drop-donation' result.id %}'">
+            <input type="submit" value="Edit" name="edit-donation" onclick="location.href='{% url 'edit-donation' result.id %}'">
+        </div>
     {% endfor %}
 
 {% endif %}

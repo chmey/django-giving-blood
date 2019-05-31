@@ -4,7 +4,7 @@ from django.db.models.signals import post_save
 from django.dispatch import receiver
 from django_countries.fields import CountryField
 from django.utils import timezone
-from datetime import datetime, timedelta
+from datetime import timedelta
 
 
 class Profile(models.Model):
