@@ -127,6 +127,15 @@ def edit_donation(request, donation_id):
         'donation_form': form
     })
 
+@login_required
+def drop_donation(request, donation_id):
+    instance = get_object_or_404(Donation, id=donation_id)
+    if request.method == 'POST':
+        instance.delete()
+        messages.success(request, 'Donation dropped.')
+        return render(request, 'web/profile.html', {'user': request.user})
+    return render(request, 'web/drop_donation.html')
+
 
 @login_required
 def see_donations(request):
