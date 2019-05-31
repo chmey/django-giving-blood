@@ -79,3 +79,12 @@ class Donation(models.Model):
     place = models.ForeignKey(DonationPlace, on_delete=models.CASCADE, blank=True, null=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
+
+
+class Article(models.Model):
+    title = models.CharField(max_length=120)
+    body = models.TextField()
+    date = models.DateTimeField()
+
+    def __str__(self):
+        return self.title
