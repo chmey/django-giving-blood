@@ -72,9 +72,6 @@ class DonationPlace(models.Model):
     def __str__(self):
         return str(self.name) + " in street " + str(self.street) + ", city: " + str(self.name) + "."
 
-    def __str__(self):
-        return str(self.name) + " in street " + str(self.street) + ", city: " + str(self.name) + ". Country: " + str(self.get_country_display())
-
 
 class Donation(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, blank = False)
