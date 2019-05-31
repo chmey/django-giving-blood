@@ -9,6 +9,10 @@ from django.urls import reverse
 from django.template.loader import get_template
 from .apps import WebConfig
 from django.contrib.auth.models import User
+from django.contrib.auth import views as auth_views
+from django.shortcuts import get_object_or_404
+from django.views import generic
+from .models import Donation
 
 
 def index(request):
@@ -129,6 +133,52 @@ def see_donations(request):
         'donations': request.user.profile.get_all_donations().all()
     })
 
+@login_required
+def add_donation(request):
+    if request.method == 'POST':
+        donation_form = AddDonationForm(request.POST)
+        donation_form.instance.user = request.user
+        if donation_form.is_valid():
+            donation_form.save()
+            messages.success(request, 'Donation added.')
+            if not request.user.profile.date_in_allowed_interval(data, self.instance.user.profile):
+                messages.error(forms.ValidationError("You shouldn't be able to donate in this date"))
+            return redirect('add-donation')
+        else:
+            messages.error(request, 'Donation adding failed. Please correct the errors.')
+    else:
+        donation_form = AddDonationForm()
+    return render(request, 'web/add_donation.html', {
+        'donation_form': donation_form
+    })
+
+@login_required
+def edit_donation(request, donation_id):
+    instance = get_object_or_404(Donation, id=donation_id)
+    form = AddDonationForm(request.POST or None, instance=instance)
+    if form.is_valid():
+        form.save()
+        messages.success(request, 'Donation edited.')
+        return redirect('see-donations')
+    return render(request, 'web/add_donation.html', {
+        'donation_form': form
+    })
+
+@login_required
+def drop_donation(request, donation_id):
+    instance = get_object_or_404(Donation, id=donation_id)
+    if request.method == 'POST':
+        instance.delete()
+        messages.success(request, 'Donation dropped.')
+        return render(request, 'web/profile.html', {'user': request.user})
+    return render(request, 'web/drop_donation.html')
+
+
+@login_required
+def see_donations(request):
+    return render(request, 'web/see_donations.html', {
+        'donations': request.user.profile.get_all_donations().all()
+    })
 
 def faq(request):
     return render(request, 'web/faq.html')
