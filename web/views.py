@@ -98,3 +98,6 @@ def delete_user(request):
 
 def faq(request):
 	return render(request, 'web/faq.html')
+	
+def map(request):
+	return render(request, 'web/map.html')
