@@ -165,6 +165,9 @@ def faq(request):
     return render(request, 'web/faq.html')
 
 
+def map(request):
+    return render(request, 'web/map.html')
+
 def news(request):
     return render(request, 'news/index.html')
 
@@ -189,4 +192,4 @@ def add_donation_place(request):
             messages.error(request, 'The form contains errors. Please correct them.')
     else:
         form = DonationPlaceForm()
-return render(request, 'web/add_donation_place.html', {'form': form})
+    return render(request, 'web/add_donation_place.html', {'form': form})
