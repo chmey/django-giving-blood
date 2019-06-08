@@ -4,6 +4,7 @@ from django.db.models.signals import post_save
 from django.dispatch import receiver
 from django_countries.fields import CountryField
 from django.utils import timezone
+from datetime import timedelta
 
 
 class Profile(models.Model):
@@ -40,6 +41,20 @@ class Profile(models.Model):
     def save_user_profile(sender, instance, **kwargs):
         instance.profile.save()
 
+    def get_last_donation_date(self):
+        return Donation.objects.latest('donationdate').donationdate
+
+    def get_next_donation_date(self):
+        return self.get_last_donation_date() + timedelta(days=56)
+
+    def get_all_donations(self):
+        return Donation.objects.filter(user=self.user)
+
+    def date_in_allowed_interval(self, check_date):
+        user_donations = self.get_all_donations()
+        return not user_donations.filter(donationdate__range=[check_date - timedelta(days=56),
+                                                check_date + timedelta(days=56)])
+
 
 class DonationPlace(models.Model):
     contributor = models.ForeignKey(User, on_delete=models.CASCADE)
@@ -54,10 +69,22 @@ class DonationPlace(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
+    def __str__(self):
+        return str(self.name) + " in street " + str(self.street) + ", city: " + str(self.name) + "."
+
 
 class Donation(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
-    time = models.DateTimeField(default=timezone.now)
+    user = models.ForeignKey(User, on_delete=models.CASCADE, blank = False)
+    donationdate = models.DateTimeField(default=timezone.now, blank = False)
     place = models.ForeignKey(DonationPlace, on_delete=models.CASCADE, blank=True, null=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
+
+
+class Article(models.Model):
+    title = models.CharField(max_length=120)
+    body = models.TextField()
+    date = models.DateTimeField()
+
+    def __str__(self):
+        return self.title
