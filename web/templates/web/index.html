@@ -49,6 +49,9 @@
           <h1 class="mb-5">Welcome to Bloody Django!</h1>
         </div>
         <div class="col-md-10 col-lg-8 col-xl-7 mx-auto">
+          {% if user.is_authenticated %}
+          <a class="btn btn-block btn-lg btn-danger" href="{%url 'profile'%}">Go to profile!</a>
+          {% else %}
           <form method="post" action="{% url 'signup' %}">
             {% csrf_token %}
             <div class="form-row">
@@ -60,6 +63,7 @@
               </div>
             </div>
           </form>
+          {% endif %}
         </div>
       </div>
     </div>
