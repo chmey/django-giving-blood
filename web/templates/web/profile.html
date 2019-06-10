@@ -65,7 +65,11 @@
       <div class="row">
         <div class="col-12">
           <h5>You last gave blood on: {{user.profile.get_last_donation_date|date:'d. M Y'}}</h5>
-          <h5>For your health, you should not give again before: <br> {{user.profile.get_next_donation_date|date:'d. M Y'}}</h5>
+          {% if now >= user.profile.get_next_donation_date %}
+            <h5>The time between donations is sufficient. You can give blood today!<h5>
+          {% else %}
+            <h5>For your health, you should not give again before: <br> {{user.profile.get_next_donation_date|date:'d. M Y'}}</h5>
+          {% endif %}
         </div>
       </div>
       <div class="row">
