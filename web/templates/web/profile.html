@@ -1,33 +1,126 @@
 {% extends "../base.html" %}
 {% block content %}
 
-<h1>Welcome {{user.username}}</h1>
+<div class="container">
+  <h1>Welcome {% if user.first_name %} {{user.first_name}}{% endif %}!</h1>
+  <div class="row">
+    <div class="col-5">
+      <div class="row">
+        <div class="col-12">
+      <table class="table table-sm">
+        <thead>
+          <tr>
+            <th>Your information</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Name</td>
+            <td>{{user.first_name}} {{user.last_name}}</td>
+          </tr>
+          <tr>
+            <td>E-Mail address</td>
+            <td>{{user.email}}</td>
+          </tr>
+          <tr>
+            <td>Join date</td>
+            <td>{{user.date_joined}}</td>
+          </tr>
+          <tr>
+            <td>E-Mail address</td>
+            <td>{{user.email}}</td>
+          </tr>
+          <tr>
+            <td>Blood Type</td>
+            <td>{{user.profile.get_bloodtype_display}}</td>
+          </tr>
+          <tr>
+            <td>Gender:</td>
+            <td>{{user.profile.get_gender_display}}</td>
+          </tr>
+          <tr>
+            <td>Birthdate:</td>
+            <td>{{user.profile.birthdate}}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-6 mb-2">
+      <a class="btn btn-danger" href="{% url 'edit_profile' %}">Update profile</a>
+    </div>
+    <div class="col-6">
+      <a class="btn btn-danger" href="{% url 'password_change' %}">Change password</a>
+    </div>
+    <div class="col-6">
+      <a class="btn btn-danger" href="{% url 'invite' %}">Invite a friend!</a>
+    </div>
+    <div class="col-6">
+      <a class="btn btn-danger" href="{% url 'delete-user' %}">Delete profile</a>
+    </div>
+    </div>
+  </div>
+    <div class="col-7">
+      <div class="row">
+        <div class="col-12">
+          <h5>You last gave blood on: {{user.profile.get_last_donation_date|date:'d. M Y'}}</h5>
+          <h5>For your health, you should not give again before: <br> {{user.profile.get_next_donation_date|date:'d. M Y'}}</h5>
+        </div>
+      </div>
+      <div class="row">
+      </div>
+      <div class="row mt-4">
+        <div class="col-12">
+          <form class="" action="{% url 'add-donation' %}" method="post">
+            <div class="card border border-danger border-1">
+              <div class="card-body">
+                  {% csrf_token %}
+                  {{donation_form.as_p}}
+            </div>
+            <div class="card-footer text-center">
+              <button type="submit" class="btn btn-danger" href="{% url 'add-donation' %}">Add Blood Donation</button>
+            </div>
+          </div>
+        </form>
+        </div>
 
-Django Auth Model:
-<ul>
-  <li>{{user.first_name}} {{user.last_name}}</li>
-  <li>{{user.email}}</li>
-  <li>{{user.password}}</li>
-  <li>{{user.groups}}</li>
-  <li>{{user.user_permissions}}</li>
-  <li>Staff {{user.is_staff}}</li>
-  <li>Active {{user.is_active}}</li>
-  <li>Superuser {{user.is_superuser}}</li>
-  <li>{{user.last_login}}</li>
-  <li>{{user.date_joined}}</li>
-</ul>
+      </div>
+    </div>
+  </div>
+  <div class="row pt-5 pb-2">
+    <div class="col-10">
+      <h4>Your Blood Donations:</h4>
+    </div>
+    <div class="col-2">
 
-Our Profile Model:
-<ul>
-  <li>Birthdate: {{user.profile.birthdate}}</li>
-  <li>Receive Notifications: {{user.profile.receive_notifications}}</li>
-  <li>Bloodtype: {{user.profile.get_bloodtype_display}}</li>
-  <li>Gender: {{user.profile.get_gender_display}}</li>
-  <li>You last donated: {{user.profile.get_last_donation_date}}</li>
-  <li>For your health, you should not donate before: {{user.profile.get_next_donation_date}}</li>
-</ul>
-
-<div>
-  <p><a href="{% url 'logout' %}">Logout</a> <a href="{% url 'edit_profile' %}">Edit profile</a> <a href="{% url 'password_change'%}">Change password</a> <a href="{% url 'delete-user' %}">Delete profile</a></p>
+    </div>
+  </div>
+  <div class="row justify-content-start">
+    <div class="col-12">
+      <div class="card-columns">
+        {% for result in donations %}
+          <div class="card text-white bg-danger">
+            <div class="card-header">{{result.donationdate.date}}</div>
+            {% if result.place %}
+            <div class="card-body bg-white">
+              <p class="card-text text-danger">{{result.place}}</p>
+            </div>
+            {% endif %}
+          <div class="card-footer bg-white">
+            <div class="row justify-content-center">
+              <div class="col text-center">
+                <a class="btn btn-danger" href="#">Edit</a>
+              </div>
+              <div class="col text-center">
+                <a class="btn btn-danger" href="#">Delete</a>
+              </div>
+            </div>
+          </div>
+        </div>
+        {% endfor %}
+      </div>
+    </div>
+  </div>
 </div>
 {% endblock %}

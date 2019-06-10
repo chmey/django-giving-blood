@@ -64,7 +64,8 @@ def delete_user(request):
 # PROFILE VIEWS
 @login_required
 def profile(request):
-    return render(request, 'web/profile.html', {'user': request.user})
+    donation_form = AddDonationForm()
+    return render(request, 'web/profile.html', {'donation_form': donation_form,'user': request.user, 'donations': request.user.profile.get_all_donations().all()})
 
 
 @login_required
