@@ -52,7 +52,7 @@ class AddDonationForm(forms.ModelForm):
                                     widget=forms.DateInput(attrs={
                                         'type': 'date', 'class': 'form-control'
                                     }))
-    place = forms.ModelChoiceField(required=False, queryset=DonationPlace.objects.all(), label='Facility (optional)',widget=forms.Select(attrs={'class': 'form-control'}))
+    place = forms.ModelChoiceField(required=False, queryset=DonationPlace.objects.filter(published=True).all(), label='Facility (optional)',widget=forms.Select(attrs={'class': 'form-control'}))
 
     class Meta:
         model = Donation
