@@ -1,8 +1,7 @@
 from django.contrib.admin import AdminSite
 from django.contrib.auth.models import User
 from django.urls import path
-from .models import DonationPlace, Donation, Profile
-from news.models import Article
+from .models import DonationPlace, Donation, Profile, Article
 from . import admin_views
 
 

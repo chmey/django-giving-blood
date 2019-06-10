@@ -28,6 +28,7 @@ Our Profile Model:
 </ul>
 
 <div>
-  <p><a href="{% url 'logout' %}">Logout</a> <a href="{% url 'edit_profile' %}">Edit profile</a> <a href="{% url 'password_change'%}">Change password</a> <a href="{% url 'delete-user' %}">Delete profile</a></p>
+  <h3>Actions</h3>
+  <p><a href="{% url 'logout' %}">Logout</a> <a href="{% url 'add-donation' %}">Add blood donation</a> <a href="{% url 'see-donations' %}">See your donations</a> <a href="{% url 'add-donation-place' %}">Add public donation facility</a> <a href="{% url 'edit_profile' %}">Edit profile</a> <a href="{% url 'password_change'%}">Change password</a> <a href="{% url 'delete-user' %}">Delete profile</a></p>
 </div>
 {% endblock %}
