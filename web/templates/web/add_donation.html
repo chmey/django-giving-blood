@@ -1,10 +1,10 @@
 {% extends "../base.html" %}
 {% block content %}
-<h1>Here you can add your donation</h1>
+<h1>Add Blood Donation:</h1>
 
-<form method="post">
+<form method="post" >
   {% csrf_token %}
   {{ donation_form.as_p }}
-  <button type="submit">Add</button>
+  <button class="btn btn-danger" type="submit">Add</button>
 </form>
 {% endblock %}

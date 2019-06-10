@@ -73,6 +73,7 @@ class DonationPlace(models.Model):
         return str(self.name) + " in street " + str(self.street) + ", city: " + str(self.name) + "."
 
 
+
 class Donation(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, blank = False)
     donationdate = models.DateTimeField(default=timezone.now, blank = False)

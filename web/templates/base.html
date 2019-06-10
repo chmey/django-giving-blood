@@ -7,37 +7,31 @@
     </head>
 
     <body>
-      <nav class="navbar navbar-expand-md navbar-dark bg-dark mb-4">
-     <a class="navbar-brand" href="#">Bloody Django</a>
+      <nav class="navbar navbar-expand-md navbar-dark bg-danger mb-4">
+     <span class="navbar-brand" href="">Bloody Django</span>
      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
        <span class="navbar-toggler-icon"></span>
      </button>
      <div class="collapse navbar-collapse" id="navbarCollapse">
        <ul class="navbar-nav mr-auto">
          <li class="nav-item">
-           <a class="nav-link" href="{% url 'index' %}">Home</a>
+           <a class="nav-link text-light" href="{% url 'index' %}">Home</a>
          </li>
          <li class="nav-item">
-            <a class="nav-link" href="{% url 'news' %}">News</a>
+            <a class="nav-link text-light" href="{% url 'news' %}">News</a>
          </li>
           <li class="nav-item">
-            <a class="nav-link" href="{% url 'faq' %}">FAQ</a>
-         </li>
-         <li class="nav-item">
-            <a class="nav-link" href="{% url 'add-donation' %}">Add a donation</a>
-         </li>
-         <li class="nav-item">
-            <a class="nav-link" href="{% url 'see-donations' %}">See your donations</a>
+            <a class="nav-link text-light" href="{% url 'faq' %}">FAQ</a>
          </li>
        </ul>
        <div class="navbar-nav">
          {% if user.is_authenticated %}
-         <a class="nav-link" href="{% url 'invite' %}">Invite a friend!</a>
-         <a class="nav-link" href="{% url 'profile' %}">My Profile</a>
-         <a class="nav-link" href="{% url 'logout' %}">Logout</a>
+         <a class="nav-link text-light" href="{% url 'invite' %}">Invite a friend!</a>
+         <a class="nav-link text-light" href="{% url 'profile' %}">My Profile</a>
+         <a class="nav-link text-light" href="{% url 'logout' %}">Logout</a>
          {% else %}
-          <a class="nav-link" href="{% url 'signup' %}">Join</a>
-          <a class="nav-link" href="{% url 'login' %}">Login</a>
+          <a class="nav-link text-light" href="{% url 'signup' %}">Join</a>
+          <a class="nav-link text-light" href="{% url 'login' %}">Login</a>
          {% endif %}
      </div>
      </div>
@@ -56,6 +50,14 @@
         {% block content %}{% endblock content %}
       </div>
     </main>
-
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="{% static 'js/bootstrap.min.js' %}" charset="utf-8"></script>
+    <footer>
+        <div class="row justify-content-center">
+            <div class="col-4 text-center">
+                &copy; Copyright {% now "Y" %}
+            </div>
+        </div>
+    </footer>
     </body>
 </html>
