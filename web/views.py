@@ -100,20 +100,13 @@ def add_donation(request):
             messages.success(request, 'Donation added.')
             if not request.user.profile.date_in_allowed_interval(donation_form.instance.donationdate):
                 messages.error(request, "You shouldn't be able to donate in this date")
-            return redirect('see-donations')
+            return redirect('profile')
         else:
             messages.error(request, 'Donation adding failed. Please correct the errors.')
     else:
         donation_form = AddDonationForm()
     return render(request, 'web/add_donation.html', {
         'donation_form': donation_form
-    })
-
-
-@login_required
-def see_donations(request):
-    return render(request, 'web/see_donations.html', {
-        'donations': request.user.profile.get_all_donations().all()
     })
 
 
@@ -126,7 +119,7 @@ def edit_donation(request, donation_id):
         messages.success(request, 'Donation edited.')
         if not request.user.profile.date_in_allowed_interval(form.instance.donationdate):
             messages.error(request, "You shouldn't be able to donate in this date")
-        return redirect('see-donations')
+        return redirect('profile')
     return render(request, 'web/add_donation.html', {
         'donation_form': form
     })
