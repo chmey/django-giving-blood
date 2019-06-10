@@ -70,7 +70,8 @@ class DonationPlace(models.Model):
     updated_at = models.DateTimeField(auto_now=True)
 
     def __str__(self):
-        return str(self.name) + " in street " + str(self.street) + ", city: " + str(self.name) + "."
+        repr = str(self.name) + ' ' + ((str(self.address_supplement) + ', ' if self.address_supplement is not None else '')) + str(self.street) + ' ' + str(self.house) + ', ' + str(self.postal_code) + ' ' + str(self.city) + ' ' + str(self.country)
+        return repr
 
 
 
