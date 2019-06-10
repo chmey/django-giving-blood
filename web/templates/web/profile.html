@@ -15,23 +15,19 @@
         </thead>
         <tbody>
           <tr>
-            <td>Name</td>
+            <td>Name:</td>
             <td>{{user.first_name}} {{user.last_name}}</td>
           </tr>
           <tr>
-            <td>E-Mail address</td>
+            <td>E-Mail address:</td>
             <td>{{user.email}}</td>
           </tr>
           <tr>
-            <td>Join date</td>
+            <td>Join date:</td>
             <td>{{user.date_joined}}</td>
           </tr>
           <tr>
-            <td>E-Mail address</td>
-            <td>{{user.email}}</td>
-          </tr>
-          <tr>
-            <td>Blood Type</td>
+            <td>Blood Type:</td>
             <td>{{user.profile.get_bloodtype_display}}</td>
           </tr>
           <tr>
@@ -41,6 +37,10 @@
           <tr>
             <td>Birthdate:</td>
             <td>{{user.profile.birthdate}}</td>
+          </tr>
+          <tr>
+            <td>Receive Notifications:</td>
+            <td>{% if user.profile.receive_notifications %}<i class="fas fa-check"></i>{%else%} <i class="fas fa-times"></i>{%endif%}</td>
           </tr>
         </tbody>
       </table>
