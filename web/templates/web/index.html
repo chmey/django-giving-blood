@@ -1,16 +1,36 @@
 {% extends "../base.html" %}
 {% block content %}
 
-<h2>Welcome!</h2>
 <p>
-Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce elementum lectus quis magna elementum lacinia. Sed eget lobortis sem. Proin a dui imperdiet orci fermentum efficitur faucibus sit amet ex. Aliquam molestie lacinia vehicula. Praesent id dolor ex. Nulla facilisi. Nunc scelerisque metus a lorem hendrerit, porta varius arcu cursus. Cras elementum justo vel enim maximus fringilla.
-
-Praesent mollis mattis venenatis. Vivamus nec lacinia metus. Proin id lacus consectetur, efficitur sapien efficitur, tempor nulla. Morbi rhoncus risus nec justo tempus, eu blandit lacus hendrerit. Pellentesque consectetur ipsum nibh, eu rutrum mauris blandit id. In vel bibendum mi, eu sollicitudin sapien. Quisque nec porttitor dolor. Curabitur in congue mauris. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Sed sed fringilla nisl. Vivamus euismod euismod nisl, eu semper mauris vehicula eu.
-
-Nulla eleifend sem erat, vitae laoreet nisl porta vitae. Aliquam id massa non urna condimentum ultricies. Sed lobortis massa condimentum lacus rutrum sagittis. Nullam augue lorem, luctus vitae nulla eu, blandit elementum nibh. Suspendisse efficitur egestas risus id venenatis. Integer porttitor at elit nec efficitur. Sed vel diam nisi. Vestibulum in turpis quis tellus semper lacinia eu finibus enim. Nunc vulputate, quam eget pretium ultrices, mauris tellus ullamcorper quam, sed finibus risus eros vitae ex. Nullam malesuada eleifend dui non volutpat. Phasellus euismod arcu sed tortor euismod dapibus.
-
-Nunc interdum, ante a dignissim facilisis, neque neque placerat dolor, a dapibus nulla orci efficitur diam. Etiam placerat semper ante tincidunt dictum. Fusce in scelerisque diam, vulputate fermentum ligula. Proin rhoncus accumsan felis in lacinia. In tempor imperdiet libero vitae ultrices. Morbi gravida enim sed malesuada facilisis. Vestibulum non erat sit amet metus ornare pellentesque.
-
-Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Mauris eget massa congue urna luctus viverra. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Nam vel tortor ultricies, condimentum ligula ac, pulvinar nisl. Donec aliquet dui id sem sagittis, id porttitor mi eleifend. Sed ac tortor quis erat ullamcorper mollis eu ac elit. Fusce pellentesque mauris non lacus fermentum, a finibus sapien iaculis. Aliquam consectetur, nisl sit amet vulputate tempor, lorem lacus cursus nibh, in sodales lorem felis vitae ante. Proin pulvinar mattis bibendum. Aenean pellentesque velit non massa sagittis, nec finibus massa euismod. Fusce facilisis justo sit amet suscipit vulputate.
+<img src="https://cdn-images-1.medium.com/max/1600/1*arNCqidepDKMH8T5B0d6kA.jpeg" class="img-fluid" alt="Responsive image" height="100" width="1300">
+source: medium.com
 </p>
+
+<br></br>
+<h4>
+<p><ul><b>	What is this site for?</b></p>
+</h4>
+    <ul><ul>
+      <li>Monitor your blood donations</li>
+      <li>Check what you need to do to donate</li>
+      <li>Invite your friends</li>
+   </ul></ul>
+</ul>
+
+
+<div class="d-flex justify-content-center">
+	<a type="button" class="btn btn-danger" target=_blank_ href="{% url 'signup' %}">Sign up</a>
+	<ul></ul>
+	<a type="button" class="btn btn-danger" target=_blank_ href="{% url 'login' %}">Log in</a>
+</div> 
+  
+<br></br>	
+
+<ul>
+<p>Crated by Bloody Django team 
+	<a target=_blank_ href="https://github.com/chrisdpk/django-giving-blood/">	Visit our GitHub</a>
+</p>
+</ul>	
+  
+
 {% endblock %}

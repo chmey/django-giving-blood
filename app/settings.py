@@ -39,12 +39,9 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'django_countries',
     'web',
-    'news',
-    'ipblocker',
 ]
 
 MIDDLEWARE = [
- 	'ipblocker.crawler_middleware.CrawlerBlockerMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
