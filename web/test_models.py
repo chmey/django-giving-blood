@@ -2,6 +2,7 @@ from django.test import TestCase
 from .models import Donation, DonationPlace
 from django.contrib.auth.models import User
 from datetime import datetime, timedelta
+from django_countries.fields import Country
 
 
 class ProfileModelTest(TestCase):
@@ -33,20 +34,20 @@ class DonationPlaceModelTest(TestCase):
     def testGetAddress(self):
         u = User.objects.create()
         d = DonationPlace.objects.create(name="Place Name", street="Ul. Przykład", house="3a",
-                                         address_supplement="M. 4c", postal_code="10-234", city="Kraków", country="PL",
-                                         contributor=u)
-        self.assertSequenceEqual(d.get_address(), "Ul. Przykład 3a, M. 4c, 10-234 Kraków, POLAND")
+                                         address_supplement="M. 4c", postal_code="10-234", city="Kraków",
+                                         country=Country(code='PL'), contributor=u)
+        self.assertSequenceEqual(d.get_address(), "Ul. Przykład 3a, M. 4c, 10-234 Kraków, Poland")
 
     def testGetStr(self):
         u = User.objects.create()
         d = DonationPlace.objects.create(name="Place Name", street="Ul. Przykład", house="3a",
-                                         address_supplement="M. 4c", postal_code="10-234", city="Kraków", country="PL",
-                                         contributor=u)
-        self.assertSequenceEqual(str(d), "Place Name, Ul. Przykład 3a, M. 4c, 10-234 Kraków, POLAND")
+                                         address_supplement="M. 4c", postal_code="10-234", city="Kraków",
+                                         country=Country(code='PL'), contributor=u)
+        self.assertSequenceEqual(str(d), "Place Name, Ul. Przykład 3a, M. 4c, 10-234 Kraków, Poland")
 
     def testGetUrl(self):
         u = User.objects.create()
         d = DonationPlace.objects.create(name="Place Name", street="Ul. Przykład", house="3a",
-                                         address_supplement="M. 4c", postal_code="10-234", city="Kraków", country="PL",
-                                         contributor=u)
-        self.assertSequenceEqual(d.get_maps_url(), "https://www.google.com/maps/?q=Ul.%20Przyk%C5%82ad%203a,%20M.%204c,%2010-234%20Krak%C3%B3w,%20POLAND")
+                                         address_supplement="M. 4c", postal_code="10-234", city="Kraków",
+                                         country=Country(code='PL'), contributor=u)
+        self.assertSequenceEqual(d.get_maps_url(), "https://www.google.com/maps/?q=Ul.+Przyk%C5%82ad+3a%2C+M.+4c%2C+10-234+Krak%C3%B3w%2C+Poland")
