@@ -76,6 +76,9 @@ class DonationPlace(models.Model):
         repr = str(self.name) + ', ' + self.get_address()
         return repr
 
+    def get_maps_url(self):
+        url = "https://www.google.com/maps/?" + http.urlencode({'q': self.get_address()})
+        return url
 
 
 class Donation(models.Model):
