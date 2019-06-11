@@ -66,7 +66,8 @@ def delete_user(request):
 # PROFILE VIEWS
 @login_required
 def profile(request):
-    return render(request, 'web/profile.html', {'user': request.user})
+    donation_form = AddDonationForm()
+    return render(request, 'web/profile.html', {'donation_form': donation_form,'user': request.user, 'donations': request.user.profile.get_all_donations().all()})
 
 
 @login_required
@@ -100,21 +101,14 @@ def add_donation(request):
             donation_form.save()
             messages.success(request, 'Donation added.')
             if not request.user.profile.date_in_allowed_interval(donation_form.instance.donationdate):
-                messages.error(request, "You shouldn't be able to donate in this date")
-            return redirect('see-donations')
+                messages.warning(request, "Be careful: The donation you added was too soon after your last blood donation. It is advised to wait 56 days between donations.")
+            return redirect('profile')
         else:
             messages.error(request, 'Donation adding failed. Please correct the errors.')
     else:
         donation_form = AddDonationForm()
     return render(request, 'web/add_donation.html', {
         'donation_form': donation_form
-    })
-
-
-@login_required
-def see_donations(request):
-    return render(request, 'web/see_donations.html', {
-        'donations': request.user.profile.get_all_donations().all()
     })
 
 
@@ -126,8 +120,8 @@ def edit_donation(request, donation_id):
         form.save()
         messages.success(request, 'Donation edited.')
         if not request.user.profile.date_in_allowed_interval(form.instance.donationdate):
-            messages.error(request, "You shouldn't be able to donate in this date")
-        return redirect('see-donations')
+            messages.warning(request, "Be careful: The donation you added was too soon after your last blood donation. It is advised to wait 56 days between donations.")
+        return redirect('profile')
     return render(request, 'web/add_donation.html', {
         'donation_form': form
     })

@@ -1,10 +1,10 @@
 {% extends "../base.html" %}
 {% block content %}
-<h1>Invite a friend</h1>
+<h1>Invite a friend to use Bloody Django:</h1>
 
 <form method="post">
   {% csrf_token %}
   {{ form.as_p }}
-  <button type="submit">Invite friend</button>
+  <button class="btn btn-danger" type="submit">Invite your friend</button>
 </form>
 {% endblock %}
