@@ -1,0 +1,7 @@
+{% extends "../base.html" %}
+{% block content %}
+<h1>Submissions waiting for approval:</h1>
+  {% for entry in submissions %}
+    <a href="{% url 'admin:review-place' entry.id %}">{{entry}}</a> <br>
+  {% endfor%}
+{% endblock %}

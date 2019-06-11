@@ -2,6 +2,9 @@ from django.contrib.auth.models import User
 from .models import Profile, DonationPlace, Donation
 from django import forms
 from datetime import datetime
+from django_countries.widgets import CountrySelectWidget
+from django_countries.fields import CountryField
+
 
 
 class UserForm(forms.ModelForm):
@@ -26,20 +29,30 @@ class DeleteUserForm(forms.Form):
 
 
 class DonationPlaceForm(forms.ModelForm):
+    name = forms.CharField(max_length=100, widget=forms.TextInput(attrs={'class': 'form-control'}))
+    street = forms.CharField(max_length=100, widget=forms.TextInput(attrs={'class': 'form-control'}))
+    house = forms.CharField(label='Street Number', max_length=5, widget=forms.NumberInput(attrs={'class': 'form-control'}))
+    address_supplement = forms.CharField(max_length=100, widget=forms.TextInput(attrs={'class': 'form-control'}))
+    postal_code = forms.CharField(label='Postal/ZIP code', max_length=32, widget=forms.NumberInput(attrs={'class': 'form-control'}))
+    city = forms.CharField(max_length=100, widget=forms.TextInput(attrs={'class': 'form-control'}))
+    country = CountryField().formfield(widget=CountrySelectWidget(attrs={'class': 'form-control'}))
+
+
     class Meta:
         model = DonationPlace
         exclude = ('contributor', 'published',)
 
 
 class InviteForm(forms.Form):
-    email = forms.EmailField(required=True)
+    email = forms.EmailField(required=True, widget=forms.EmailInput(attrs={'class':'form-control'}))
 
 
 class AddDonationForm(forms.ModelForm):
-    donationdate = forms.DateField(label='Donation date', initial=datetime.now(),
-                                widget=forms.DateInput(attrs={
-                                    'type': 'date'
-                                }))
+    donationdate = forms.DateField(label='Date of Blood Donation', initial=datetime.now(),
+                                    widget=forms.DateInput(attrs={
+                                        'type': 'date', 'class': 'form-control'
+                                    }))
+    place = forms.ModelChoiceField(required=False, queryset=DonationPlace.objects.filter(published=True).all(), label='Facility (optional)',widget=forms.Select(attrs={'class': 'form-control'}))
 
     class Meta:
         model = Donation
