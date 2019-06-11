@@ -3,7 +3,7 @@ from django.contrib.auth.models import User
 from django.db.models.signals import post_save
 from django.dispatch import receiver
 from django_countries.fields import CountryField
-from django.utils import timezone
+from django.utils import timezone, http
 from datetime import timedelta
 
 
@@ -69,8 +69,11 @@ class DonationPlace(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
+    def get_address(self):
+        return str(self.street) + ' ' + str(self.house) + ', ' + ((str(self.address_supplement) + ', ' if self.address_supplement is not None else '')) + str(self.postal_code) + ' ' + str(self.city) + ', ' + str(self.country.name)
+
     def __str__(self):
-        repr = str(self.name) + ' ' + ((str(self.address_supplement) + ', ' if self.address_supplement is not None else '')) + str(self.street) + ' ' + str(self.house) + ', ' + str(self.postal_code) + ' ' + str(self.city) + ' ' + str(self.country)
+        repr = str(self.name) + ', ' + self.get_address()
         return repr
 
 
