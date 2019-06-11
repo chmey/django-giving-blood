@@ -6,7 +6,10 @@ from .forms import AddDonationForm
 class DonationTestCase(TestCase):
 
     def test_add_donation(self):
-        pass
+        form_data = {'something': 'something'}
+        form = MyForm(data=form_data)
+        self.assertTrue(form.is_valid())
+ 
     
     def test_search_donation(self):
         pass
