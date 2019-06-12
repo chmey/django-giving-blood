@@ -2,4 +2,6 @@ from django.test import TestCase
 
 
 class AdminTest(TestCase):
-    pass
+    
+    def upload_donation_csv(self):
+        pass

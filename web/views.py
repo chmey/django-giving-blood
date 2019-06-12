@@ -133,7 +133,7 @@ def drop_donation(request, donation_id):
     if request.method == 'POST':
         instance.delete()
         messages.success(request, 'Donation dropped.')
-        return render(request, 'web/profile.html', {'user': request.user})
+        return redirect('profile')
     return render(request, 'web/drop_donation.html')
 
 

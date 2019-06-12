@@ -12,7 +12,8 @@ class BloodAdminSite(AdminSite):
         urls = super().get_urls()
         admin_urls = [
             path('review_place/<id>', admin_views.review_place, name='review-place'),
-            path('review_place', admin_views.review_place, name='review-place-index')
+            path('review_place', admin_views.review_place, name='review-place-index'),
+            path('import_donation_places', admin_views.import_donation_places, name='upload-donation-places')
         ]
         return urls + admin_urls
 
