@@ -12,8 +12,6 @@ from django.contrib.auth.models import User
 from django.shortcuts import get_object_or_404
 from .models import Donation
 
-from django.http import HttpResponse
-
 
 def index(request):
     context = {}
@@ -99,7 +97,6 @@ def add_donation(request):
         donation_form.instance.user = request.user
         if donation_form.is_valid():
             donation_form.save()
-            return HttpResponse(str(donation_form.cleaned_data))
             messages.success(request, 'Donation added.')
             if not request.user.profile.date_in_allowed_interval(donation_form.instance.donationdate):
                 messages.warning(request, "Be careful: The donation you added was too soon after your last blood donation. It is advised to wait 56 days between donations.")
