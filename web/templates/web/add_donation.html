@@ -1,10 +1,17 @@
 {% extends "../base.html" %}
 {% block content %}
-<h1>Here you can add your donation</h1>
+<h1>Add Blood Donation:</h1>
 
-<form method="post">
+
+
+<form method="post" >
   {% csrf_token %}
   {{ donation_form.as_p }}
-  <button type="submit">Add</button>
+  <div class="row justify-content-center">
+    <div class="col-4">
+      <a class="btn btn-outline-primary btn-small" href="{% url 'add-donation-place'%}">Add new blood donation facility</a>
+    </div>
+  </div>
+  <button class="btn btn-danger" type="submit"><b>Submit & add blood donation</b></button>
 </form>
 {% endblock %}
