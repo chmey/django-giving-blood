@@ -190,7 +190,6 @@ def add_donation_place(request):
 @login_required
 def export_profile(request):
     data = dict()
-    #data["user"] = request.user.profile
     donations = request.user.profile.get_all_donations().all()
     data = dict()
     user = request.user
@@ -207,17 +206,18 @@ def export_profile(request):
                     'receive_notifications': user.profile.receive_notifications,
                     'last_update': user.profile.updated_at
                     }
-    data['donations'] = list()
+    data['blood_donations'] = list()
     for d in donations:
         place = dict()
-        place['name'] = d.place.name
-        place['street'] = d.place.street
-        place['house'] = d.place.house
-        place['address_supplement'] = d.place.address_supplement
-        place['postal_code'] = d.place.postal_code
-        place['city'] = d.place.city
-        place['country'] = d.place.country.code
-        data['donations'].append({'date': d.donationdate, 'place': place})
+        if(d.place):
+            place['name'] = d.place.name
+            place['street'] = d.place.street
+            place['house'] = d.place.house
+            place['address_supplement'] = d.place.address_supplement
+            place['postal_code'] = d.place.postal_code
+            place['city'] = d.place.city
+            place['country'] = d.place.country.code
+        data['blood_donations'].append({'date': d.donationdate, 'facility': place})
     response = JsonResponse(data)
     response['Content-Disposition'] = 'attachment; filename="Bloody_Django_' + str(int(time.time())) + '.json"'
     return response
