@@ -56,7 +56,7 @@ def import_donation_places(request):
                     data_dict["address_supplement"] = fields[3]
                     data_dict["postal_code"] = int(fields[4])
                     data_dict["city"] = fields[5]
-                    data_dict["country"] = fields[6]            
+                    data_dict["country"] = CountryField(fields[6]).code         
                     data_dict["published"] = True
                     
                     form = DonationPlaceForm(data_dict)       
