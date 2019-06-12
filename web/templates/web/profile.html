@@ -48,16 +48,19 @@
   </div>
   <div class="row">
     <div class="col-6 mb-2">
-      <a class="btn btn-danger" href="{% url 'edit_profile' %}">Update profile</a>
+      <a class="btn btn-block btn-danger" href="{% url 'edit_profile' %}">Update profile</a>
     </div>
     <div class="col-6">
-      <a class="btn btn-danger" href="{% url 'password_change' %}">Change password</a>
+      <a class="btn btn-block btn-danger" href="{% url 'password_change' %}">Change password</a>
+    </div>
+    <div class="col-6 mb-2">
+      <a class="btn btn-block btn-danger" href="{% url 'export_profile' %}">Export Profile</a>
     </div>
     <div class="col-6">
-      <a class="btn btn-danger" href="{% url 'invite' %}">Invite a friend!</a>
+      <a class="btn btn-block btn-danger" href="{% url 'delete-user' %}">Delete profile</a>
     </div>
-    <div class="col-6">
-      <a class="btn btn-danger" href="{% url 'delete-user' %}">Delete profile</a>
+    <div class="col-12">
+      <a class="btn btn-block btn-danger" href="{% url 'invite' %}">Invite a friend!</a>
     </div>
     </div>
   </div>

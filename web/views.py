@@ -11,6 +11,8 @@ from .apps import WebConfig
 from django.contrib.auth.models import User
 from django.shortcuts import get_object_or_404
 from .models import Donation
+from django.http import JsonResponse
+import time
 
 
 def index(request):
@@ -184,3 +186,38 @@ def add_donation_place(request):
     else:
         form = DonationPlaceForm()
     return render(request, 'web/add_donation_place.html', {'form': form})
+
+@login_required
+def export_profile(request):
+    data = dict()
+    donations = request.user.profile.get_all_donations().all()
+    data = dict()
+    user = request.user
+    data['user'] = {'username': user.username,
+                    'email': user.email,
+                    'date_joined': user.date_joined,
+                    'last_login': user.last_login,
+                    'is_staff': user.is_staff,
+                    'first_name': user.first_name,
+                    'last_name': user.last_name,
+                    'blood_type': user.profile.get_bloodtype_display(),
+                    'gender': user.profile.get_gender_display(),
+                    'birthday': user.profile.birthdate,
+                    'receive_notifications': user.profile.receive_notifications,
+                    'last_update': user.profile.updated_at
+                    }
+    data['blood_donations'] = list()
+    for d in donations:
+        place = dict()
+        if(d.place):
+            place['name'] = d.place.name
+            place['street'] = d.place.street
+            place['house'] = d.place.house
+            place['address_supplement'] = d.place.address_supplement
+            place['postal_code'] = d.place.postal_code
+            place['city'] = d.place.city
+            place['country'] = d.place.country.code
+        data['blood_donations'].append({'date': d.donationdate, 'facility': place})
+    response = JsonResponse(data)
+    response['Content-Disposition'] = 'attachment; filename="Bloody_Django_' + str(int(time.time())) + '.json"'
+    return response
