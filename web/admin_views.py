@@ -3,7 +3,7 @@ from django.shortcuts import render, get_object_or_404, redirect
 from .models import DonationPlace
 from django.contrib import messages
 from .forms import DonationPlaceForm
-from django_countries.fields import CountryField
+from django_countries.fields import Country
 from django.http import HttpResponse
 
 
@@ -45,25 +45,8 @@ def import_donation_places(request):
             del lines[-1]
             for line in lines:
                 fields = line.split(",")
-                data_dict = {}
-                # data_dict["contributor"] = request.user.id
-                data_dict["name"] = fields[0]
-                data_dict["street"] = fields[1]
-                if fields[2] != '':
-                    data_dict["house"] = int(fields[2])
-                data_dict["address_supplement"] = fields[3]
-                data_dict["postal_code"] = int(fields[4])
-                data_dict["city"] = fields[5]
-                data_dict["country"] = fields[6]
-                data_dict["published"] = True
-                form = DonationPlaceForm(data_dict)
-
-                return HttpResponse(str(form))
-
-                if form.is_valid():
-                    form.save()
-                    count += 1
-
+                p = DonationPlace.objects.create(name=fields[0], street=fields[1], house=int(fields[2]), address_supplement=fields[3], postal_code=int(fields[4]), city=fields[5], country=Country.country_from_ioc(ioc_code=fields[6]), published=True)
+                p.save()
         except Exception as e:
             messages.error(request, "Unable to upload file. " + repr(e))
             return redirect('/admin/import_donation_places')
