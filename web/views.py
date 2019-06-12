@@ -187,9 +187,9 @@ def add_donation_place(request):
         form = DonationPlaceForm()
     return render(request, 'web/add_donation_place.html', {'form': form})
 
+
 @login_required
 def export_profile(request):
-    data = dict()
     donations = request.user.profile.get_all_donations().all()
     data = dict()
     user = request.user
