@@ -58,7 +58,7 @@ class Profile(models.Model):
 
 class DonationPlace(models.Model):
     contributor = models.ForeignKey(User, on_delete=models.CASCADE)
-    name = models.CharField(max_length=100, unique=True)
+    name = models.CharField(max_length=100)
     street = models.CharField(max_length=100)
     house = models.CharField(max_length=5, blank=True)
     address_supplement = models.CharField(max_length=100, blank=True)

@@ -44,10 +44,10 @@ def import_donation_places(request):
             lines = file_data.split("\n")
             del lines[-1]
             for line in lines:
-                fields = line.split(",")
+                fields = line.split(";")
                 country = Country(code=fields[6])
                 print(country)
-                p = DonationPlace.objects.create(contributor=request.user, name=fields[0], street=fields[1], house=int(fields[2]), address_supplement=fields[3], postal_code=int(fields[4]), city=fields[5], country=country, published=True)
+                p = DonationPlace.objects.create(contributor=request.user, name=fields[0], street=fields[1], house=fields[2], address_supplement=fields[3], postal_code=fields[4], city=fields[5], country=country, published=True)
                 p.save()
                 count += 1
         except Exception as e:

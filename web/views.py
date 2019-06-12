@@ -165,6 +165,10 @@ def privacy(request):
     return render(request, 'web/privacy.html')
 
 
+def map(request):
+    return render(request, 'web/map.html')
+
+
 def news(request):
     return render(request, 'news/index.html')
 
