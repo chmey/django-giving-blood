@@ -48,7 +48,7 @@ class InviteForm(forms.Form):
 
 
 class AddDonationForm(forms.ModelForm):
-    donationdate = forms.DateField(label='Date of Blood Donation', initial=datetime.now(),
+    date = forms.DateField(label='Date of Blood Donation', initial=datetime.now(),
                                     widget=forms.DateInput(attrs={
                                         'type': 'date', 'class': 'form-control'
                                     }))

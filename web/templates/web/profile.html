@@ -108,7 +108,7 @@
       <div class="card-columns">
         {% for result in donations %}
           <div class="card text-white bg-danger">
-            <div class="card-header">{{result.donationdate.date}}</div>
+            <div class="card-header">{{result.date.date}}</div>
             {% if result.place %}
             <div class="card-body bg-white">
               <p class="card-text text-danger">{{result.place}}</p>

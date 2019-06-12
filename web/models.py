@@ -42,7 +42,7 @@ class Profile(models.Model):
         instance.profile.save()
 
     def get_last_donation_date(self):
-        return Donation.objects.latest('donationdate').donationdate
+        return Donation.objects.latest('date').date
 
     def get_next_donation_date(self):
         return self.get_last_donation_date() + timedelta(days=56)
@@ -52,7 +52,7 @@ class Profile(models.Model):
 
     def date_in_allowed_interval(self, check_date):
         user_donations = self.get_all_donations()
-        return not user_donations.filter(donationdate__range=[check_date - timedelta(days=56),
+        return not user_donations.filter(date=[check_date - timedelta(days=56),
                                                 check_date + timedelta(days=56)])
 
 
@@ -83,7 +83,7 @@ class DonationPlace(models.Model):
 
 class Donation(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, blank = False)
-    donationdate = models.DateTimeField(default=timezone.now, blank = False)
+    date = models.DateTimeField(default=timezone.now, blank = False)
     place = models.ForeignKey(DonationPlace, on_delete=models.CASCADE, blank=True, null=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)

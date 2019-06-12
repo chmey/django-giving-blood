@@ -100,7 +100,7 @@ def add_donation(request):
         if donation_form.is_valid():
             donation_form.save()
             messages.success(request, 'Donation added.')
-            if not request.user.profile.date_in_allowed_interval(donation_form.instance.donationdate):
+            if not request.user.profile.date_in_allowed_interval(donation_form.instance.date):
                 messages.warning(request, "Be careful: The donation you added was too soon after your last blood donation. It is advised to wait 56 days between donations.")
             return redirect('profile')
         else:
@@ -119,7 +119,7 @@ def edit_donation(request, donation_id):
     if form.is_valid():
         form.save()
         messages.success(request, 'Donation edited.')
-        if not request.user.profile.date_in_allowed_interval(form.instance.donationdate):
+        if not request.user.profile.date_in_allowed_interval(form.instance.date):
             messages.warning(request, "Be careful: The donation you added was too soon after your last blood donation. It is advised to wait 56 days between donations.")
         return redirect('profile')
     return render(request, 'web/add_donation.html', {
@@ -225,7 +225,7 @@ def export_profile(request):
             place['postal_code'] = d.place.postal_code
             place['city'] = d.place.city
             place['country'] = d.place.country.code
-        data['blood_donations'].append({'date': d.donationdate, 'facility': place})
+        data['blood_donations'].append({'date': d.date, 'facility': place})
     response = JsonResponse(data)
     response['Content-Disposition'] = 'attachment; filename="Bloody_Django_' + str(int(time.time())) + '.json"'
     return response
