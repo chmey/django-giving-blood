@@ -33,6 +33,7 @@ urlpatterns = [
 
         path('invite', views.invite, name='invite'),
         path('faq', views.faq, name='faq'),
+        path('privacy', views.privacy, name='privacy'),
         path('places/add', views.add_donation_place, name='add-donation-place'),
         path('news', views.news, name='news'),
     ]

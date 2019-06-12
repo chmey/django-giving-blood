@@ -161,6 +161,10 @@ def faq(request):
     return render(request, 'web/faq.html')
 
 
+def privacy(request):
+    return render(request, 'web/privacy.html')
+
+
 def news(request):
     return render(request, 'news/index.html')
 

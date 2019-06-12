@@ -1,0 +1,118 @@
+{% extends "../base.html" %}
+{% block content %}
+
+<div class="container">
+  <h1>Privacy Policy</h1>
+  <div class="row">
+    <div class="col-5">
+        <h2>Controller</h2>
+        <p>The responsible controller in the sense of the European General Data Protection Regulation (GDPR) is:</p>
+        <p><b>Organization Name</b></p>
+        <p>Street No<br>Postal City<br>Country</p>
+        <p>Phone: +xx xxx xxxxxxxx<br>EMail: info@organization.xx</p>
+
+        <h2>Data Protection Officer</h2>
+        <p>You can reach our data protection office (DPO) using the following contact:</p>
+        <p>Phone: +xx xxx xxxxxxxx<br>EMail: privacy@organization.xx</p>
+
+        <h2>Processing Activities</h2>
+
+        <h3>General User Account Data and blood donations</h3>
+        <p>For providing your user account we process the following profile data your provided: Username, first name,
+            last name, date of birth, gender and your blood type. It is optionally for you to provide your date of birth,
+            gender and blood type. Additionally we process the dates and locations of your blood donations if you provide
+            this data. All this information is accessible to you only. The purpose of this proessing is providing you
+            this service of managing your blood donations online. The legal basis is your consent based on article 6
+            paragraphe 1 literal a) GDPR and additionally article 9 paragraph 2 literal a) GDPR for your health data.
+            This data is stored until your user account is closed by you or us, until you remove
+            this data, until we change the service in a way that doesn't require this data anymore, until you withdraw
+            your consent or until we stop this service.</p>
+
+        <h3>Cookies</h3>
+        <p>Our service uses temporary cookies for authentication and security measures (CSRF Tokens). This is required
+            to provice a secure service. The legal basis is the legitimate interest to protect the service and is based
+            on article 6 pharagraphe 1 literal f) GDPR.</p>
+
+        <h3>EMail Notifications</h3>
+        <p>From time to time we send you notifications regarding blood donations if you provide us an email adress and
+        give us the consent to do so. The prupose is to provide you about blood donation related information like
+        possibilities to donate blood. The legal basis is your consent based on article 6 paragraphe 1 literal a).</p>
+
+        <h3>YouTube</h3>
+        <p>You can find embedded videos from YouTube LLC
+            (<a href="https://youtube.com" target="_blank">https://youtube.com</a>, in the following YouTube). By loading
+            the effected pages a connection between the servers of YouTube and your browser is established. Thereby meta
+            data regarding your browser and operating systems and your IP address is sent to YouTube. This data is
+            stored and analyzed for marketing and advertising purposes. The data processing may takes place outside of
+            the European Union. We have no influence to the data processing of YouTube.</p>
+        <p>External Service Provider: <b>Google Ireland Limited</b>, Gordon House, Barrow Street, Dublin 4, Irland</p>
+        <p>Privacy Policy: <a href="https://policies.google.com/privacy?hl=en&gl=en" target="_blank">https://policies.google.com/privacy?hl=en&gl=en</a></p>
+
+        <h3>Your Rights</h3>
+
+        <h4>Right to information</h4>
+        <p>You can request confirmation whether personal data relating to you will be processed by us. If we are
+            processing personal data relating to you, you have the right to request the following information:
+            <ul>
+                <li>The purposes for which the personal data are processed;</li>
+                <li>the categories of personal data processed;</li>
+                <li>the recipients or categories of recipients to whom the personal information about you has been or
+                    will be disclosed;</li>
+                <li>the planned duration of the storage of the personal data concerning you or, if it is not possible to
+                    provide specific information in this regard, criteria for determining the duration of the storage;</li>
+                <li>all available information on the origin of the data, if the personal data are not collected from the
+                    data subject;</li>
+            </ul>
+        </p>
+
+        <h4>Right to withdraw a given consent</h4>
+        <p>You have the right to withdraw any given consent at any point of time. The withdrawal of a consent does not
+            affect the lawfulness of the processing carried out on the basis of the consent up to the withdrawal.</p>
+
+        <h4>Right to rectification</h4>
+        <p>You have the right to have your personal data corrected and/or completed if it is inaccurate or incomplete.
+            We must carry out the rectification immediately.</p>
+
+        <h4>Right to restricting the processing</h4>
+        <p>In the following cases, you have the right to ask us to restrict the processing of your personal data:
+            <ul>
+                <li>the correctness of the personal data is disputed by you</li>
+                <li>the processing is unlawful</li>
+                <li>we no longer need the personal data for the purposes of processing, but you need the data for the
+                    assertion, exercise or defense of legal claims</li>
+                <li>you have lodged an objection against the processing, as long as it has not yet been established
+                    whether the legitimate reasons of our company outweigh yours.</li>
+            </ul>
+        </p>
+
+        <h4>Right to erasure of the data</h4>
+        <p>You have the right to ask us to erase your personal data in the following cases:
+            <ul>
+                <li>Processing the personal data concerning you is not longer necessary for the purposes for which they
+                    were collected or otherwise processed.</li>
+                <li>You have withdrawn your consent and there are no overriding legitimate reasons for the processing.</li>
+                <li>You object to the processing and there are no overriding legitimate reasons for the processing.</li>
+                <li>The personal data concerning you have been processed unlawfully.</li>
+                <li>The erasure of personal data concerning you is necessary to fulfill a legal obligation under Union
+                    law or the law of the Member States to which we are subject.</li>
+                <li>the personal data have been collected in relation to the offer of information society services
+                    referred to in article 8 paragraph 1 GDPR</li>
+            </ul>
+        </p>
+
+        <h4>Right to object to processing</h4>
+        <p>You have the right to object to the processing of your personal data.</p>
+
+        <h4>Right to data portability</h4>
+        <p>You have the right to receive the personal data concerning you in a structured, common and machine-readable
+            format. We provide an automatic data export to JSON format. This export can be started on your
+            <a href="{% url 'profile' %}">Profile Page</a>.</p>
+
+        <h4>Right to lodge a complaint with a supervisory authority</h4>
+        <p>You have the right to lodge a complaint with a supervisory authority. The following supervisory authority is
+            concerned:</p>
+        <p><b>Urząd Ochrony Danych Osobowych</b><br>ul. Stawki 2<br>00-193 Warszawa<br>Poland</p>
+    </div>
+  </div>
+</div>
+{% endblock %}
