@@ -1,5 +1,5 @@
-Place10, Road10, 42, Address10, 10, Krakow, PL
-Place11, Road11, 425,, 11, Milan, IT
-Place12, Road12, 536, Address12, 12, Budapest, HU
-Place13, Road13,, Address13, 13, Wroclaw, PL
-Place14, Road14,,, 14, Warsaw, PL
+Place10,Road10,42,Address10,10,Krakow,PL
+Place11,Road11,425,,11,Milan,IT
+Place12,Road12,536,Address12,12,Budapest,HU
+Place13,Road13,12,Address13,13,Wroclaw,PL
+Place14,Road14,12,,14,Warsaw,PL

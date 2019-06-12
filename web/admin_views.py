@@ -28,6 +28,7 @@ def review_place(request, id=None):
 @staff_member_required
 def import_donation_places(request):
     if request.method == 'POST':
+        count = 0
         try:
             csv_file = request.FILES["csv_file"]
             if not csv_file.name.endswith('.csv'):
@@ -40,13 +41,15 @@ def import_donation_places(request):
                 return redirect('/admin/import_donation_places')
 
             file_data = csv_file.read().decode("utf-8")
-            count = 0
             lines = file_data.split("\n")
             del lines[-1]
             for line in lines:
                 fields = line.split(",")
-                p = DonationPlace.objects.create(name=fields[0], street=fields[1], house=int(fields[2]), address_supplement=fields[3], postal_code=int(fields[4]), city=fields[5], country=Country.country_from_ioc(ioc_code=fields[6]), published=True)
+                country = Country(code=fields[6])
+                print(country)
+                p = DonationPlace.objects.create(contributor=request.user, name=fields[0], street=fields[1], house=int(fields[2]), address_supplement=fields[3], postal_code=int(fields[4]), city=fields[5], country=country, published=True)
                 p.save()
+                count += 1
         except Exception as e:
             messages.error(request, "Unable to upload file. " + repr(e))
             return redirect('/admin/import_donation_places')
