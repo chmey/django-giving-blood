@@ -31,7 +31,15 @@
        </ul>
        <div class="navbar-nav">
          {% if user.is_superuser %}
-         <a class="nav-link text-light" href="{% url 'admin:review-place-index' %}">Admin: Review Places</a>
+         <div class="nav-item dropdown">
+           <a class="nav-link text-light dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+             Admin
+           </a>
+           <div class="dropdown-menu bg-danger" aria-labelledby="navbarDropdown">
+             <a class="nav-link text-light" href="{% url 'admin:review-place-index' %}">Review Places</a>
+             <a class="nav-link text-light" href="{% url 'admin:upload-donation-places' %}">Import Places</a>
+           </div>
+         </div>
          {%endif%}
          {% if user.is_authenticated %}
          <a class="nav-link text-light" href="{% url 'add-donation' %}">Add Blood Donation</a>
