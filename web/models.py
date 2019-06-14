@@ -3,8 +3,8 @@ from django.contrib.auth.models import User
 from django.db.models.signals import post_save
 from django.dispatch import receiver
 from django_countries.fields import CountryField
-from django.utils import timezone
-from datetime import timedelta
+from django.utils import timezone, http
+from datetime import timedelta, datetime
 
 
 class Profile(models.Model):
@@ -29,6 +29,7 @@ class Profile(models.Model):
     bloodtype = models.SmallIntegerField(null=True, blank=True, choices=BLOODTYPE_CHOICES)
     birthdate = models.DateField(null=True, blank=True)
     receive_notifications = models.BooleanField(default=True)
+    got_notified = models.BooleanField(default=False)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
@@ -42,7 +43,7 @@ class Profile(models.Model):
         instance.profile.save()
 
     def get_last_donation_date(self):
-        return Donation.objects.latest('donationdate').donationdate
+        return self.get_all_donations().latest('date').date
 
     def get_next_donation_date(self):
         return self.get_last_donation_date() + timedelta(days=56)
@@ -52,16 +53,12 @@ class Profile(models.Model):
 
     def date_in_allowed_interval(self, check_date):
         user_donations = self.get_all_donations()
-        return not user_donations.filter(donationdate__range=
-                                                [
-                                                    check_date - timedelta(days=56),
-                                                    check_date + timedelta(days=56)
-                                                ])
+        return not user_donations.filter(date__range=[check_date - timedelta(days=56), check_date + timedelta(days=56)])
 
 
 class DonationPlace(models.Model):
     contributor = models.ForeignKey(User, on_delete=models.CASCADE)
-    name = models.CharField(max_length=100, unique=True)
+    name = models.CharField(max_length=100)
     street = models.CharField(max_length=100)
     house = models.CharField(max_length=5, blank=True)
     address_supplement = models.CharField(max_length=100, blank=True)
@@ -72,13 +69,31 @@ class DonationPlace(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
+    def get_address(self):
+        return str(self.street) + ' ' + str(self.house) + ', ' + ((str(self.address_supplement) + ', ' if self.address_supplement is not None else '')) + str(self.postal_code) + ' ' + str(self.city) + ', ' + str(self.country.name)
+
     def __str__(self):
-        return str(self.name) + " in street " + str(self.street) + ", city: " + str(self.name) + ". Country: " + str(self.get_country_display())
+        repr = str(self.name) + ', ' + self.get_address()
+        return repr
+
+    def get_maps_url(self):
+        url = "https://www.google.com/maps/?" + http.urlencode({'q': self.get_address()})
+        return url
+
 
 
 class Donation(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, blank = False)
-    donationdate = models.DateTimeField(default=timezone.now, blank = False)
+    date = models.DateTimeField(default=timezone.now, blank = False)
     place = models.ForeignKey(DonationPlace, on_delete=models.CASCADE, blank=True, null=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
+
+
+class Article(models.Model):
+    title = models.CharField(max_length=120)
+    body = models.TextField()
+    date = models.DateTimeField()
+
+    def __str__(self):
+        return self.title

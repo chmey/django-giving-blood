@@ -1,0 +1,14 @@
+{% extends "../base.html" %}
+{% block content %}
+
+{% for error in form.errors %}
+<p style="color: red">{{ error }}</p>
+{% endfor %}
+<form method="post">
+{% csrf_token %}
+{{ form.as_p }}
+<button class="btn btn-danger" type="submit" name="add">Add News & Send Notification</button>
+</form>
+
+
+{% endblock %}
