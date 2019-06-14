@@ -98,9 +98,9 @@ def add_donation(request):
         donation_form = AddDonationForm(request.POST)
         donation_form.instance.user = request.user
         if donation_form.is_valid():
-            donation_form.save()
+            d = donation_form.save()
             messages.success(request, 'Donation added.')
-            if not request.user.profile.date_in_allowed_interval(donation_form.instance.date):
+            if not request.user.profile.date_in_allowed_interval(d.date):
                 messages.warning(request, "Be careful: The donation you added was too soon after your last blood donation. It is advised to wait 56 days between donations.")
             return redirect('profile')
         else:
@@ -117,9 +117,9 @@ def edit_donation(request, donation_id):
     instance = get_object_or_404(Donation, id=donation_id)
     form = AddDonationForm(request.POST or None, instance=instance)
     if form.is_valid():
-        form.save()
+        d = form.save()
         messages.success(request, 'Donation edited.')
-        if not request.user.profile.date_in_allowed_interval(form.instance.date):
+        if not request.user.profile.date_in_allowed_interval(d.date):
             messages.warning(request, "Be careful: The donation you added was too soon after your last blood donation. It is advised to wait 56 days between donations.")
         return redirect('profile')
     return render(request, 'web/add_donation.html', {

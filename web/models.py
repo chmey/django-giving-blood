@@ -52,8 +52,7 @@ class Profile(models.Model):
 
     def date_in_allowed_interval(self, check_date):
         user_donations = self.get_all_donations()
-        return not user_donations.filter(date=[check_date - timedelta(days=56),
-                                                check_date + timedelta(days=56)])
+        return not user_donations.filter(date__range=[check_date - timedelta(days=56), check_date + timedelta(days=56)])
 
 
 class DonationPlace(models.Model):
