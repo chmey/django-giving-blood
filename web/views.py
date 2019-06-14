@@ -10,7 +10,7 @@ from django.template.loader import get_template
 from .apps import WebConfig
 from django.contrib.auth.models import User
 from django.shortcuts import get_object_or_404
-from .models import Donation
+from .models import Donation, Article
 from django.http import JsonResponse
 import time
 
@@ -170,7 +170,8 @@ def map(request):
 
 
 def news(request):
-    return render(request, 'news/index.html')
+    all_news = Article.objects.all().order_by('date')
+    return render(request, 'news/index.html',{'news':all_news})
 
 
 @login_required

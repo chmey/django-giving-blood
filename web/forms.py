@@ -1,5 +1,5 @@
 from django.contrib.auth.models import User
-from .models import Profile, DonationPlace, Donation
+from .models import Profile, DonationPlace, Donation, Article
 from django import forms
 from datetime import datetime
 from django_countries.widgets import CountrySelectWidget
@@ -57,3 +57,15 @@ class AddDonationForm(forms.ModelForm):
     class Meta:
         model = Donation
         exclude = ('created_at', 'updated_at', 'user')
+
+class ArticleForm(forms.ModelForm):
+    date = forms.DateField(label='Date', initial=datetime.now(), widget=forms.DateInput(attrs={
+        'type': 'date', 'class': 'form-control'
+    }))
+    body = forms.CharField(widget=forms.Textarea(attrs={'class': 'form-control'}))
+    title = forms.CharField(widget=forms.TextInput(attrs={'class': 'form-control'}))
+
+
+    class Meta:
+        model = Article
+        exclude = ()

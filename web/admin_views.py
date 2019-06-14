@@ -1,10 +1,23 @@
 from django.contrib.admin.views.decorators import staff_member_required
 from django.shortcuts import render, get_object_or_404, redirect
+from django.urls import reverse
 from .models import DonationPlace
 from django.contrib import messages
-from .forms import DonationPlaceForm
+from .forms import ArticleForm
 from django_countries.fields import Country
-from django.http import HttpResponse
+
+
+@staff_member_required
+def add_news(request):
+    form = ArticleForm(request.POST or None)
+    if request.method == 'POST':
+        if form.is_valid():
+            form.save()
+            # TODO: notify users with enabled notfication
+            return redirect(reverse('news'))
+        else:
+            messages.error(request, 'Posting news failed. Please correct the errors.')
+    return render(request, 'admin/add_news.html', {'form':form})
 
 
 @staff_member_required

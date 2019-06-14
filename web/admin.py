@@ -13,7 +13,8 @@ class BloodAdminSite(AdminSite):
         admin_urls = [
             path('review_place/<id>', admin_views.review_place, name='review-place'),
             path('review_place', admin_views.review_place, name='review-place-index'),
-            path('import_donation_places', admin_views.import_donation_places, name='upload-donation-places')
+            path('import_donation_places', admin_views.import_donation_places, name='upload-donation-places'),
+            path('add_news', admin_views.add_news, name='add-news'),
         ]
         return urls + admin_urls
 
