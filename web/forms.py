@@ -14,7 +14,7 @@ class UserForm(forms.ModelForm):
 
 
 class ProfileForm(forms.ModelForm):
-    birthdate = forms.DateField(label='Birth date', initial=datetime.now(),
+    birthdate = forms.DateField(required=False, label='Birth date', initial=datetime.now(),
                                 widget=forms.DateInput(attrs={
                                     'type': 'date'
                                 }))
@@ -33,7 +33,7 @@ class DonationPlaceForm(forms.ModelForm):
     street = forms.CharField(max_length=100, widget=forms.TextInput(attrs={'class': 'form-control'}))
     house = forms.CharField(label='Street Number', max_length=5, widget=forms.NumberInput(attrs={'class': 'form-control'}))
     address_supplement = forms.CharField(max_length=100, widget=forms.TextInput(attrs={'class': 'form-control'}))
-    postal_code = forms.CharField(label='Postal/ZIP code', max_length=32, widget=forms.NumberInput(attrs={'class': 'form-control'}))
+    postal_code = forms.CharField(label='Postal/ZIP code', max_length=32, widget=forms.TextInput(attrs={'class': 'form-control'}))
     city = forms.CharField(max_length=100, widget=forms.TextInput(attrs={'class': 'form-control'}))
     country = CountryField().formfield(widget=CountrySelectWidget(attrs={'class': 'form-control'}))
 
