@@ -48,11 +48,20 @@ class InviteForm(forms.Form):
 
 
 class AddDonationForm(forms.ModelForm):
+<<<<<<< HEAD
     donationdate = forms.DateField(label='Date of Blood Donation', initial=datetime.now(),
                                 widget=forms.DateInput(attrs={
                                     'type': 'date', 'class': 'form-control'
                                 }))
     place = forms.ModelChoiceField(queryset=DonationPlace.objects.all(), label='Facility (optional)',widget=forms.Select(attrs={'class': 'form-control'}))
+=======
+    date = forms.DateField(label='Date of Blood Donation', initial=datetime.now(),
+                                    widget=forms.DateInput(attrs={
+                                        'type': 'date', 'class': 'form-control'
+                                    }))
+    place = forms.ModelChoiceField(required=False, queryset=DonationPlace.objects.filter(published=True).all(), label='Facility (optional)',widget=forms.Select(attrs={'class': 'form-control'}))
+
+>>>>>>> dev
     class Meta:
         model = Donation
         exclude = ('created_at', 'updated_at', 'user')

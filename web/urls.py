@@ -24,15 +24,17 @@ urlpatterns = [
         # PROFILE URLs
         path('profile', views.profile, name='profile'),
         path('profile/edit', views.edit_profile, name='edit_profile'),
+        path('profile/export', views.export_profile, name='export_profile'),
 
         # BLOOD DONATION URLs
-        path('donations', views.see_donations, name='see-donations'),
         path('add', views.add_donation, name='add-donation'),
         path('edit/<donation_id>', views.edit_donation, name='edit-donation'),
         path('drop/<donation_id>', views.drop_donation, name='drop-donation'),
 
         path('invite', views.invite, name='invite'),
         path('faq', views.faq, name='faq'),
+        path('privacy', views.privacy, name='privacy'),
+        path('map', views.map, name='map'),
         path('places/add', views.add_donation_place, name='add-donation-place'),
         path('news', views.news, name='news'),
-    ]
+  ]

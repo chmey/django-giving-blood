@@ -2,18 +2,32 @@
 {% block content %}
 <p>User {{place.contributor.username}} ({{place.contributor.email}}, <b>{{num_contributions}}</b> Place Contributions) has submitted this locality:</p>
 
-<div>
-  {{place.name}} <br>
-  {{place.street}} <br>
-  {{place.house}} <br>
-  {{place.address_supplement}} <br>
-  {{place.postal_code}} {{place.city}} <br>
-  {{place.country}} <br>
-  {{place.created_at}}
-</div>
+
+<table class="table">
+  <tbody>
+    <tr>
+      <td>{{place.name}}</td>
+    </tr>
+    <tr>
+      <td>{{place.street}} {{place.house}}</td>
+    </tr>
+    <tr>
+      <td>{{place.address_supplement}}</td>
+    </tr>
+    <tr>
+      <td>{{place.postal_code}} {{place.city}}</td>
+    </tr>
+    <tr>
+      <td>{{place.country}}</td>
+    </tr>
+    <tr>
+      <td>Created: {{place.created_at}}</td>
+    </tr>
+  </tbody>
+</table>
 
 <form method="post">
   {% csrf_token %}
-  <button type="submit" value="true" name="approve">Approve & Publish</button>
+  <button class="btn btn-danger" type="submit" value="true" name="approve">Approve & Publish</button>
 </form>
 {% endblock %}

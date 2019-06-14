@@ -4,6 +4,8 @@
         <title>Bloody Django</title>
         {% load static %}
         <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}" type="text/css">
+        <link rel="stylesheet" href="{% static 'css/fa-all.css' %}" type="text/css">
+
     </head>
 
     <body>
@@ -20,13 +22,34 @@
          <li class="nav-item">
             <a class="nav-link text-light" href="{% url 'news' %}">News</a>
          </li>
+<<<<<<< HEAD
+=======
+           <li class="nav-item">
+            <a class="nav-link text-light" href="{% url 'map' %}">Map</a>
+         </li>
+>>>>>>> dev
           <li class="nav-item">
             <a class="nav-link text-light" href="{% url 'faq' %}">FAQ</a>
          </li>
        </ul>
        <div class="navbar-nav">
+         {% if user.is_superuser %}
+         <div class="nav-item dropdown">
+           <a class="nav-link text-light dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+             Admin
+           </a>
+           <div class="dropdown-menu bg-danger" aria-labelledby="navbarDropdown">
+             <a class="nav-link text-light" href="{% url 'admin:review-place-index' %}">Review Places</a>
+             <a class="nav-link text-light" href="{% url 'admin:upload-donation-places' %}">Import Places</a>
+           </div>
+         </div>
+         {%endif%}
          {% if user.is_authenticated %}
+<<<<<<< HEAD
          <a class="nav-link text-light" href="{% url 'invite' %}">Invite a friend!</a>
+=======
+         <a class="nav-link text-light" href="{% url 'add-donation' %}">Add Blood Donation</a>
+>>>>>>> dev
          <a class="nav-link text-light" href="{% url 'profile' %}">My Profile</a>
          <a class="nav-link text-light" href="{% url 'logout' %}">Logout</a>
          {% else %}
@@ -55,7 +78,11 @@
     <footer>
         <div class="row justify-content-center">
             <div class="col-4 text-center">
+<<<<<<< HEAD
                 &copy; Copyright {% now "Y" %}
+=======
+                &copy; Copyright {% now "Y" %} <br> <a href="{% url 'privacy' %}">Privacy Policy</a>
+>>>>>>> dev
             </div>
         </div>
     </footer>

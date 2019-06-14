@@ -16,5 +16,9 @@
     </p>
   {% endfor %}
   <button type="submit">Sign up</button>
+  <p>By signing up to our service I confirm that I have read the
+      <a href="{% url 'privacy' %}">Privacy Policy</a>. I agree that my personal data is stored and processed
+      for this service in the described manner. I can withdraw my consent at any time by closing my user account
+      or by writing an email to <a href="mailto:privacy@organization.xx" target="_blank">privacy@organization.xx</a>.</p>
 </form>
 {% endblock %}
