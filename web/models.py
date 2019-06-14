@@ -4,7 +4,7 @@ from django.db.models.signals import post_save
 from django.dispatch import receiver
 from django_countries.fields import CountryField
 from django.utils import timezone, http
-from datetime import timedelta
+from datetime import timedelta, datetime
 
 
 class Profile(models.Model):
@@ -29,6 +29,7 @@ class Profile(models.Model):
     bloodtype = models.SmallIntegerField(null=True, blank=True, choices=BLOODTYPE_CHOICES)
     birthdate = models.DateField(null=True, blank=True)
     receive_notifications = models.BooleanField(default=True)
+    got_notified = models.BooleanField(default=False)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
@@ -42,7 +43,7 @@ class Profile(models.Model):
         instance.profile.save()
 
     def get_last_donation_date(self):
-        return Donation.objects.latest('date').date
+        return self.get_all_donations().latest('date').date
 
     def get_next_donation_date(self):
         return self.get_last_donation_date() + timedelta(days=56)

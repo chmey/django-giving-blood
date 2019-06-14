@@ -37,4 +37,7 @@ urlpatterns = [
         path('map', views.map, name='map'),
         path('places/add', views.add_donation_place, name='add-donation-place'),
         path('news', views.news, name='news'),
+
+        # API
+        path('_api_notifications', views._api_notifications, name='_api_notifications'),
   ]
