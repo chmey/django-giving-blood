@@ -81,6 +81,7 @@ class DonationPlace(models.Model):
         return url
 
 
+
 class Donation(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, blank = False)
     date = models.DateTimeField(default=timezone.now, blank = False)
