@@ -1,10 +1,12 @@
 from django.contrib.admin.views.decorators import staff_member_required
 from django.shortcuts import render, get_object_or_404, redirect
 from django.urls import reverse
-from .models import DonationPlace
+from .models import DonationPlace, Profile
 from django.contrib import messages
 from .forms import ArticleForm
 from django_countries.fields import Country
+from django.core.mail import EmailMessage
+from .apps import WebConfig
 
 
 @staff_member_required
@@ -12,8 +14,12 @@ def add_news(request):
     form = ArticleForm(request.POST or None)
     if request.method == 'POST':
         if form.is_valid():
-            form.save()
-            # TODO: notify users with enabled notfication
+            n = form.save()
+            users = Profile.objects.all().filter(receive_notifications=True)
+            subject = 'Bloody Django: ' + n.title
+            recepients = [u.user.email for u in users]
+            mail = EmailMessage(subject=subject, body=n.body, from_email=WebConfig.from_email_admin, to=['users'], bcc=recepients)
+            mail.send()
             return redirect(reverse('news'))
         else:
             messages.error(request, 'Posting news failed. Please correct the errors.')
