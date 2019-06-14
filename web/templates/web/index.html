@@ -49,12 +49,9 @@
           <h1 class="mb-5">Welcome to Bloody Django!</h1>
         </div>
         <div class="col-md-10 col-lg-8 col-xl-7 mx-auto">
-<<<<<<< HEAD
-=======
           {% if user.is_authenticated %}
           <a class="btn btn-block btn-lg btn-danger" href="{%url 'profile'%}">Go to profile!</a>
           {% else %}
->>>>>>> dev
           <form method="post" action="{% url 'signup' %}">
             {% csrf_token %}
             <div class="form-row">
@@ -66,10 +63,7 @@
               </div>
             </div>
           </form>
-<<<<<<< HEAD
-=======
           {% endif %}
->>>>>>> dev
         </div>
       </div>
     </div>
@@ -111,11 +105,7 @@
   <footer class="bg-light">
     <div class="row justify-content-center">
       <div class="col-4 text-center">
-<<<<<<< HEAD
-        &copy; Copyright {% now "Y" %}
-=======
         &copy; Copyright {% now "Y" %} <br> <a href="{% url 'privacy' %}">Privacy Policy</a>
->>>>>>> dev
       </div>
     </div>
   </footer>
