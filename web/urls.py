@@ -24,6 +24,7 @@ urlpatterns = [
         # PROFILE URLs
         path('profile', views.profile, name='profile'),
         path('profile/edit', views.edit_profile, name='edit_profile'),
+        path('profile/export', views.export_profile, name='export_profile'),
 
         # BLOOD DONATION URLs
         path('add', views.add_donation, name='add-donation'),
