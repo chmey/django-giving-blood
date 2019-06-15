@@ -1,10 +1,29 @@
 from django.contrib.admin.views.decorators import staff_member_required
 from django.shortcuts import render, get_object_or_404, redirect
-from .models import DonationPlace
+from django.urls import reverse
+from .models import DonationPlace, Profile
 from django.contrib import messages
-from .forms import DonationPlaceForm
+from .forms import ArticleForm
 from django_countries.fields import Country
-from django.http import HttpResponse
+from django.core.mail import EmailMessage
+from .apps import WebConfig
+
+
+@staff_member_required
+def add_news(request):
+    form = ArticleForm(request.POST or None)
+    if request.method == 'POST':
+        if form.is_valid():
+            n = form.save()
+            users = Profile.objects.all().filter(receive_notifications=True)
+            subject = 'Bloody Django: ' + n.title
+            recepients = [u.user.email for u in users]
+            mail = EmailMessage(subject=subject, body=n.body, from_email=WebConfig.from_email_admin, to=['users'], bcc=recepients)
+            mail.send()
+            return redirect(reverse('news'))
+        else:
+            messages.error(request, 'Posting news failed. Please correct the errors.')
+    return render(request, 'admin/add_news.html', {'form':form})
 
 
 @staff_member_required
@@ -28,6 +47,7 @@ def review_place(request, id=None):
 @staff_member_required
 def import_donation_places(request):
     if request.method == 'POST':
+        count = 0
         try:
             csv_file = request.FILES["csv_file"]
             if not csv_file.name.endswith('.csv'):
@@ -40,13 +60,15 @@ def import_donation_places(request):
                 return redirect('/admin/import_donation_places')
 
             file_data = csv_file.read().decode("utf-8")
-            count = 0
             lines = file_data.split("\n")
             del lines[-1]
             for line in lines:
-                fields = line.split(",")
-                p = DonationPlace.objects.create(name=fields[0], street=fields[1], house=int(fields[2]), address_supplement=fields[3], postal_code=int(fields[4]), city=fields[5], country=Country.country_from_ioc(ioc_code=fields[6]), published=True)
+                fields = line.split(";")
+                country = Country(code=fields[6])
+                print(country)
+                p = DonationPlace.objects.create(contributor=request.user, name=fields[0], street=fields[1], house=fields[2], address_supplement=fields[3], postal_code=fields[4], city=fields[5], country=country, published=True)
                 p.save()
+                count += 1
         except Exception as e:
             messages.error(request, "Unable to upload file. " + repr(e))
             return redirect('/admin/import_donation_places')

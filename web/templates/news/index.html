@@ -1,4 +1,24 @@
 {% extends "../base.html" %}
 {% block content %}
-
+<div class="row justify-content-center">
+<div class="col-12 text-center">
+  <h1>News</h1>
+  <hr>
+</div>
+</div>
+{% for n in news %}
+<div class="row mb-2">
+  <div class="col-12">
+  <div class="card text-center">
+      <div class="card-body">
+        <h5 class="card-title">{{n.title}}</h5>
+        <p class="card-text">{{n.body}}</p>
+      </div>
+      <div class="card-footer text-muted">
+        {{n.date | date:"d.M.Y"}}
+      </div>
+    </div>
+  </div>
+</div>
+{% endfor %}
 {% endblock %}

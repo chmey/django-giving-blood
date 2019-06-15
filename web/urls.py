@@ -33,6 +33,11 @@ urlpatterns = [
 
         path('invite', views.invite, name='invite'),
         path('faq', views.faq, name='faq'),
+        path('privacy', views.privacy, name='privacy'),
+        path('map', views.map, name='map'),
         path('places/add', views.add_donation_place, name='add-donation-place'),
         path('news', views.news, name='news'),
-    ]
+
+        # API
+        path('_api_notifications', views._api_notifications, name='_api_notifications'),
+  ]

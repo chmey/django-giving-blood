@@ -1,0 +1,13 @@
+Hello {{name}},
+
+we here at Bloody Django care about your health.
+
+Due to recovery reasons, it is not healthy to donate blood within 56 days of your last donation.
+
+Fortunately for you, that time has now passed and you body is ready to donate blood again.
+
+
+We are sharing this with you, because you agree to receive notifications. You can edit this setting on your profile page.
+
+Best Regards,
+The Bloody Django Team

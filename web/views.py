@@ -4,15 +4,16 @@ from django.contrib.auth import login, authenticate, logout
 from django.contrib.auth.decorators import login_required
 from .forms import UserForm, ProfileForm, InviteForm, DonationPlaceForm, AddDonationForm, DeleteUserForm
 from django.contrib import messages
-from django.core.mail import EmailMultiAlternatives
+from django.core.mail import EmailMultiAlternatives, send_mail
 from django.urls import reverse
 from django.template.loader import get_template
 from .apps import WebConfig
 from django.contrib.auth.models import User
 from django.shortcuts import get_object_or_404
-from .models import Donation
-from django.http import JsonResponse
+from .models import Donation, Article, Profile
+from django.http import JsonResponse, HttpResponse
 import time
+from datetime import datetime
 
 
 def index(request):
@@ -98,9 +99,11 @@ def add_donation(request):
         donation_form = AddDonationForm(request.POST)
         donation_form.instance.user = request.user
         if donation_form.is_valid():
-            donation_form.save()
+            d = donation_form.save()
+            request.user.profile.got_notified = False
+            request.user.save()
             messages.success(request, 'Donation added.')
-            if not request.user.profile.date_in_allowed_interval(donation_form.instance.donationdate):
+            if not request.user.profile.date_in_allowed_interval(d.date):
                 messages.warning(request, "Be careful: The donation you added was too soon after your last blood donation. It is advised to wait 56 days between donations.")
             return redirect('profile')
         else:
@@ -117,9 +120,11 @@ def edit_donation(request, donation_id):
     instance = get_object_or_404(Donation, id=donation_id)
     form = AddDonationForm(request.POST or None, instance=instance)
     if form.is_valid():
-        form.save()
+        d = form.save()
+        request.user.profile.got_notified = False
+        request.user.save()
         messages.success(request, 'Donation edited.')
-        if not request.user.profile.date_in_allowed_interval(form.instance.donationdate):
+        if not request.user.profile.date_in_allowed_interval(d.date):
             messages.warning(request, "Be careful: The donation you added was too soon after your last blood donation. It is advised to wait 56 days between donations.")
         return redirect('profile')
     return render(request, 'web/add_donation.html', {
@@ -161,8 +166,17 @@ def faq(request):
     return render(request, 'web/faq.html')
 
 
+def privacy(request):
+    return render(request, 'web/privacy.html')
+
+
+def map(request):
+    return render(request, 'web/map.html')
+
+
 def news(request):
-    return render(request, 'news/index.html')
+    all_news = Article.objects.all().order_by('date')
+    return render(request, 'news/index.html',{'news':all_news})
 
 
 @login_required
@@ -217,7 +231,26 @@ def export_profile(request):
             place['postal_code'] = d.place.postal_code
             place['city'] = d.place.city
             place['country'] = d.place.country.code
-        data['blood_donations'].append({'date': d.donationdate, 'facility': place})
+        data['blood_donations'].append({'date': d.date, 'facility': place})
     response = JsonResponse(data)
     response['Content-Disposition'] = 'attachment; filename="Bloody_Django_' + str(int(time.time())) + '.json"'
     return response
+
+
+def _api_notifications(request):
+    # ####################################
+    # TODO: ATTENTION! RROTECT THIS ENDPOINT.
+    # IT SHOULD NOT BE CALLABLE FROM USERS.
+    # ONLY CALL THIS FROM ALLOWED HOSTS.
+    # ADD LIMITATION IN NGINX etc.
+    # CALL IT ONCE A DAY TO SEND NOTIFICATIONS.
+    # #####################################
+    users = Profile.objects.all().filter(receive_notifications=True)
+    for u in users:
+        if u.get_all_donations():
+            if u.get_next_donation_date().date() <= datetime.now().date() and not u.got_notified:
+                plain = get_template('email/notify_can_donate.txt').render({'name': u.user.first_name + " " + u.user.last_name})
+                send_mail(subject='Bloody Django: You can give blood again.', message=plain, from_email=WebConfig.from_email_admin, recipient_list=[u.user.email])
+                u.got_notified = True
+                u.save()
+    return HttpResponse()
