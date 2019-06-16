@@ -38,7 +38,7 @@ def review_place(request, id=None):
                 place.published = True
                 place.save()
                 # redirect to donation place page
-                redirect('/admin')
+                return redirect('/admin')
         else:
             num_contributions = DonationPlace.objects.filter(contributor=place.contributor).count()
             return render(request, 'admin/review_place.html', {'place': place, 'num_contributions': num_contributions})

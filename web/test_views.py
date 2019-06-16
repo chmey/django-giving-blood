@@ -72,14 +72,6 @@ class ViewsTestCase(TestCase):
         self.assertTemplateUsed(resp, 'web/edit_profile.html')
         self.assertEqual(resp.status_code, 200)
 
-    def test_edit_profile_user_submit_empty(self):
-        c = Client()
-        u = User.objects.create_user('testcase')
-        c.force_login(user=u)
-        resp = c.post('/profile/edit')
-        self.assertTrue(len(resp.context['messages']) > 0)
-        self.assertTemplateUsed(resp, 'web/edit_profile.html')
-
     def test_edit_profile_user_submit_successful(self):
         c = Client()
         u = User.objects.create_user('testcase')
