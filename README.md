@@ -25,5 +25,5 @@ Note: In every new shell session you need to source `.venv/bin/activate` again.
 
 Open the web app in your browser: http://localhost:8000
 
-[![Build Status](https://travis-ci.org/chrisdpk/django-giving-blood.svg?branch=master)](https://travis-ci.org/chrisdpk/django-giving-blood)
-[![Coverage Status](https://coveralls.io/repos/github/chrisdpk/django-giving-blood/badge.svg?branch=master)](https://coveralls.io/github/chrisdpk/django-giving-blood?branch=master)
+[![Build Status](https://travis-ci.org/chrisdpk/django-giving-blood.svg?branch=dev)](https://travis-ci.org/chrisdpk/django-giving-blood)
+[![Coverage Status](https://coveralls.io/repos/github/chrisdpk/django-giving-blood/badge.svg?branch=dev)](https://coveralls.io/github/chrisdpk/django-giving-blood?branch=dev)
