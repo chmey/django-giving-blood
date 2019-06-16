@@ -24,3 +24,5 @@ If everything worked without errors, you can now start the django server using
 Note: In every new shell session you need to source `.venv/bin/activate` again.
 
 Open the web app in your browser: http://localhost:8000
+
+[![Build Status](https://travis-ci.org/chrisdpk/django-giving-blood.svg?branch=master)](https://travis-ci.org/chrisdpk/django-giving-blood)
