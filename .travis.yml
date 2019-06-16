@@ -2,5 +2,8 @@ language: python
 dist: xenial # Fix for wrong sqlite version.
 install:
   - pip install -r requirements.txt
+  - pip install python-coveralls
 script:
   - python manage.py test
+after_success:
+  - coveralls
