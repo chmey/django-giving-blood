@@ -3,7 +3,8 @@ dist: xenial # Fix for wrong sqlite version.
 install:
   - pip install -r requirements.txt
   - pip install python-coveralls
+  - pip install coverage
 script:
-  - python manage.py test
+  - coverage run --include="web/*","app/*"  manage.py test web  
 after_success:
   - coveralls
